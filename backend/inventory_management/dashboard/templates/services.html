@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Services - NASRADAMUFF FARM{% endblock %}
+
+{% block content %}
+<h1>Our Services</h1>
+<p>At NASRADAMUFF FARM AND AGRO ALLIED VENTURES, we offer a range of services to support both farmers and investors. From livestock management to profit-sharing programs, we are dedicated to empowering you through sustainable agriculture.</p>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h2>Livestock Application</h2>
+        <p>Apply for a variety of livestock including cattle, poultry, and more. Track the progress of your livestock and ensure their growth and wellbeing through our integrated management platform.</p>
+        <a href="{% url 'livestock_application' %}" class="btn btn-primary">Apply for Livestock</a>
+    </div>
+    <div class="col-md-6">
+        <h2>Approval Process</h2>
+        <p>Once you’ve submitted an application for livestock, our team will review and approve applications based on our criteria. Stay updated on your application status through our approvals dashboard.</p>
+        <a href="{% url 'approvals' %}" class="btn btn-primary">Check Approvals</a>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h2>Customer Information</h2>
+        <p>Manage your account, view application history, and check your active livestock. We offer a user-friendly dashboard to make managing your farm experience easy and efficient.</p>
+        <a href="{% url 'customer_info' %}" class="btn btn-primary">View Customer Info</a>
+    </div>
+    <div class="col-md-6">
+        <h2>Profit Sharing</h2>
+        <p>Participate in our profit-sharing program and earn returns based on your investment in the farm. Your success is tied to the growth of the farm, and we are committed to sharing the fruits of our labor.</p>
+        <a href="{% url 'profit_sharing' %}" class="btn btn-primary">Learn About Profit Sharing</a>
+    </div>
+</div>
+{% endblock %}
