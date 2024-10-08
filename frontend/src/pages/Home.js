@@ -94,7 +94,7 @@ We also empowering Farmers, Growing Livestock, and Sharing Profits */}
           "Nasradamuff Farm has been a game-changer for my livestock farming business. 
           The support and guidance I’ve received is unmatched."
         </Typography>
-        <Typography variant="subtitle2">- Farmer John Doe</Typography>
+        <Typography variant="subtitle2">- Bolaji Hammed</Typography>
       </Box>
     </Grid>
     <Grid item xs={12} sm={6}>
@@ -103,7 +103,7 @@ We also empowering Farmers, Growing Livestock, and Sharing Profits */}
           "With the resources provided by Nasradamuff Farm, I’ve been able to scale my 
           farming operations and increase productivity tenfold."
         </Typography>
-        <Typography variant="subtitle2">- Farmer Jane Smith</Typography>
+        <Typography variant="subtitle2">-Bolaji Hammed</Typography>
       </Box>
     </Grid>
   </Grid>
