@@ -16,6 +16,22 @@ from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from django.core.mail import send_mail
+
+import os
+import certifi
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hammedbolajihammed@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'udnylwqjnpaeancd'  # The App Password you generated
+DEFAULT_FROM_EMAIL = 'hammedbolajihammed@gmail.com'
+
+EMAIL_USE_SSL = False
+SSL_CERT_FILE = certifi.where()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -32,7 +48,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +59,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    # 'django.core.mail',
 ]
 
 MIDDLEWARE = [
