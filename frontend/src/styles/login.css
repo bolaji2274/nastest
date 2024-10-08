@@ -1,100 +1,52 @@
-body {
-    height: 100vh;
-    background: linear-gradient(#2A00B7, #42006C);
-}
-
-.login-container {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    width: 600px;
-    margin-top: 200px;
-    background: #fff;
-    padding-bottom: 30px;
-    border-radius: 15px;
-    margin-bottom: 50px;
-}
-
-.login-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 9px;
-    width: 100%;
-    margin-top: 30px;
-}
-
-.login-text {
-    color: #3c009d;
-    font-size: 48px;
+.sign-into{
+    font-family: "Raleway", sans-serif;
     font-weight: 700;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-size: 24px;
+    color: #444444;
+    margin: 0 0 30px 0;
+}
+.bg-img {
+    background-image: url('../assets/images/chicken-3.jpg');
+}
+.mail, .pass {
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color: #555;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
 }
 
-.login-underline {
-    width: 59px;
-    height: 5px;
-    background: #3c009d;
-    border-radius: 9px;
-}
-
-.login-inputs{
-    margin-top: 55px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-.login-input {
-    display: flex;
-    align-items: center;
-    margin: auto;
-    width: 480px;
-    height: 80px;
-    background: #eaeaea;
-    border-radius: 7px;
-}
-
-.login-input img {
-    margin: 0 30px;
-}
-.login-input input {
-    height: 50px;
-    width: 400px;
-    background: transparent;
-    border: none;
+.submit-buton {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
     outline: none;
-    color: #797979;
-    font-size: 19px;
+    white-space: nowrap;
+    margin: 5px 5px;
+    padding: 22px 22px;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #009933;
+    color: #FFF;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
-
-.login-forgot-password {
-    padding-left: 62px;
-    margin-top: 27px;
-    color: #797979;
-    font-size: 18px;
-
-}
-
-.login-forgot-password span {
-    color: #4c00b4;
-    cursor: pointer;
-}
-
-.login-submit-container {
-    display: flex;
-    gap: 30px;
-    margin: 60px auto;
-}
-
-.login-submit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    height: 59px;
-    color: #fff;
-    background: #4c00b4;
-    border-radius: 50px;
-    font-size: 19px;
+.submit-btn{
+    font-family: "Raleway", sans-serif;
     font-weight: 700;
+    font-style: normal;
+    color: #555;
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
 }

@@ -1,41 +1,42 @@
-// App.js
-
-import React from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
-
-import HomePage from './pages/HomePage';
-import About from './components/About';
-import ServicesPage from './components/ServicesPage';
-import Contact from './components/Contact';
-import Login from './pages/Login';
-
-
-// import AppFooter from './components/AppFooter'
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import PrivateRoute from './utils/PrivateRoute'
+import { AuthProvider } from "./context/AuthContext";
+import HomePage from "./views/HomePage";
+import Dashboard from "./views/Dashboard";
+import LoginPage from "./views/LoginPage";
+import RegisterPage from "./views/RegisterPage";
+import Navbar from './views/Navbar'
+import NotFound from './views/NotFound';
+import TestLogin from './views/TestLogin';
+import Home from './pages/Home';
+import About from './pages/About';
 
 function App() {
   return (
-    <div className="App">
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<HomePage />}></Route>
-      </Routes>
-      <Routes>
-        <Route exact path="/login" element={<Login />}></Route>
-      </Routes>
-      <Routes>
-        <Route exact path="/about" element={<About />}></Route>
-      </Routes>
-      <Routes>
-        <Route exact path="/services" element={<ServicesPage />}></Route>
-      </Routes>
-      <Routes>
-        <Route exact path="/contact" element={<Contact />}></Route>
-      </Routes>
-    </Router>
-  
-      
-    </div>
-  );
+    
+      <Router>
+        <AuthProvider>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/test' element={<TestLogin/>}/>
+            <Route path='/about' element={<About/>}/>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage/>} />
+        <Route 
+        path="/dashboard" 
+        element={
+        <PrivateRoute>
+          <Dashboard/>    
+        </PrivateRoute>
+        } />
+        <Route path='*' element={<NotFound/>}/>
+
+       </Routes>
+       </AuthProvider>
+      </Router>
+       
+  )
 }
 
-export default App;
+export default App
