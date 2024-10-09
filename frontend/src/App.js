@@ -26,24 +26,20 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-        </Routes>
-      </Suspense>
-          <Routes>
-            {/* <Route path='/' element={<Home/>}/> */}
-            <Route path='/test' element={<TestLogin/>}/>
+          <Route path='/test' element={<TestLogin/>}/>
             {/* <Route path='/about' element={<About/>}/> */}
           <Route path="/login" element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage/>} />
-        <Route 
+          <Route 
         path="/dashboard" 
         element={
         <PrivateRoute>
           <Dashboard/>    
         </PrivateRoute>
         } />
-        <Route path='*' element={<NotFound/>}/>
-
-       </Routes>
+         <Route path='*' element={<NotFound/>}/>
+        </Routes>
+      </Suspense>
        </AuthProvider>
       </Router>
        
