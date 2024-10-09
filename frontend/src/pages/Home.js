@@ -1,4 +1,6 @@
 import React from 'react';
+// import { LazyLoadImage } from 'react-lazy-load-image-component';
+// import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Container, Typography, Grid, Button, Box } from '@mui/material';
 // import Grid from '@mui/material/Unstable_Grid2';
 import chicken from '../assets/images/chicken-coop.jpg'; // Replace with the path to your hero image
@@ -15,6 +17,10 @@ const Home = () => {
       {/* Hero Section */}
       {/* <Navbar/> */}
       <Header/>
+      {/* <LazyLoadImage
+      alt="Example"
+        effect="blur"
+        /> */}
       <Box className="hero" style={{ backgroundImage: `url(${chicken})`, width: "100%" }}>
         
         <Container maxWidth="lg" className="hero-content">
