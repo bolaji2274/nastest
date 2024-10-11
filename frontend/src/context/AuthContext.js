@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(jwtDecode(data.access));
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 setErrors({});  // Clear previous errors
-                navigate("/dashboard");
+                navigate("/");
             } else if (response.status === 400) {
                 // Handle form field errors for login (e.g. invalid credentials)
                 setErrors(data); // Make sure backend returns field errors

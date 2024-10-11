@@ -1,9 +1,11 @@
 import React from 'react'
+// import Header from '../views/Header'
 import naslogo from '../assets/images/nasfarm-logo.jpg'
 function Contact() {
   return (
     <div>
       <>
+      {/* <Header/> */}
   {/* contact section */}
   <section className="contact_section ">
     <div className="container-fluid">

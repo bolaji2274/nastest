@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Navbar from './Navbar'
+import Header from './Header'
 import useAxios from '../utils/useAxios'
 import { jwtDecode } from 'jwt-decode'
 
@@ -47,7 +47,7 @@ function Dashboard() {
 
   return (
     <div>
-      <Navbar/>
+     <Header/>
       <>
   <div className="container-fluid" style={{ paddingTop: 60 }}>
     <div className="row">

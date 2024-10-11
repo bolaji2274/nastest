@@ -7,8 +7,8 @@ import { AuthProvider } from "./context/AuthContext";
 import HomePage from "./views/HomePage";
 import Dashboard from "./views/Dashboard";
 import LoginPage from "./views/LoginPage";
+import Contact from './pages/Contact';
 import RegisterPage from "./views/RegisterPage";
-import Navbar from './views/Navbar'
 import NotFound from './views/NotFound';
 import TestLogin from './views/TestLogin';
 import Spinner from './pages/Spinner';
@@ -26,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path='/test' element={<TestLogin/>}/>
             {/* <Route path='/about' element={<About/>}/> */}
           <Route path="/login" element={<LoginPage />} />

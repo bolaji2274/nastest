@@ -73,7 +73,8 @@ def dashboard(request):
 @permission_classes([IsAuthenticated])
 def testEndPoint(request):
     if request.method == 'GET':
-        data = f"Congratulation {request.user}, your API just responded to GET request"
+        # data = f"Congratulation {request.user}, your API just responded to GET request"
+        data = f"Congratulation {request.user}, you just login to your dashboard"
         return Response({'response': data}, status=status.HTTP_200_OK)
     elif request.method == 'POST':
         text = "Hello buddy"

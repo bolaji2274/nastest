@@ -1,9 +1,12 @@
 import React from 'react'
+// import Header from '../views/Header'
+// import AppFooter from './AppFooter'
 import chicken from '../assets/images/chicken-7.jpg'
 
 function About() {
   return (
     <div>
+      {/* <Header/> */}
       <section className="about_section layout_padding">
   <div className="container-fluid">
     <div className="row">
@@ -30,7 +33,7 @@ function About() {
     </div>
   </div>
 </section>
-
+    {/* <AppFooter/> */}
     </div>
   )
 }

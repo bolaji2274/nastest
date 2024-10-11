@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { jwtDecode } from 'jwt-decode'
+import AuthContext from '../context/AuthContext'
 import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/nasfarm-logo.jpg'
 import About from '../pages/About';
+import '../styles/nav.css'
 
+
+// function Navbar() {
+//   const {user, logoutUser} = useContext(AuthContext)
+//   const token = localStorage.getItem("authTokens")
+
+//   if (token){
+//     const decode = jwtDecode(token)
+//     var user_id = decode.user_id
+//   }
 
 const MyNavbar = () => {
   const [expanded, setExpanded] = useState(false);  // State for toggling navbar
+  const {user, logoutUser} = useContext(AuthContext)
+  const token = localStorage.getItem("authTokens")
 
+  if (token){
+    const decode = jwtDecode(token)
+    var user_id = decode.user_id
+  }
   return (
     <Navbar expanded={expanded} expand="lg" bg="dark" variant="dark" sticky="top">
       <Container>
@@ -35,8 +53,29 @@ const MyNavbar = () => {
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action3">Something Else</NavDropdown.Item>
             </NavDropdown> */}
-            <Button variant="outline-info" className="ms-2" as={Link} to="/login">Login</Button>
-            <Button variant="outline-info" className="ms-2" as={Link} to="/register">Register</Button>
+            {token === null &&
+              <>
+              {/* <li className="nav-item">
+                <Link to="/login" variant="outline-info" className="nav-link">Login</Link>
+              </li> */}
+              {/* <li className="nav-item">
+                <Link to="/register" variant="outline-info" className="nav-link">Register</Link>
+              </li> */}
+               <Button variant="outline-info" className="ms-2 head-log" as={Link} to="/login">Login</Button>
+              </>
+               }
+               {token !== null &&
+              <><li className="nav-item">
+                <Link to="/dashboard" className="nav-link" >Dashboard</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" style={{cursor: "pointer"}} onClick={logoutUser}>Logout</Link>
+              </li>
+              </>
+               }
+              
+            {/* <Button variant="outline-info" className="ms-2 head-log" as={Link} to="/login">Login</Button> */}
+            {/* <Button variant="outline-info" className="ms-2" as={Link} to="/register">Register</Button> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

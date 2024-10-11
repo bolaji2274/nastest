@@ -49,7 +49,7 @@ function RegisterPage() {
                       style={{ color: "#ff6219" }}
                     />
                     <span className="h2 fw-bold mb-0">
-                      Welcome to <b>Bolaji Dev👋</b>
+                      Welcome to <b>Nasfarm 👋</b>
                     </span>
                   </div>
                   <h5
