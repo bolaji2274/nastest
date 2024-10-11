@@ -3,4 +3,6 @@ django-rest-framework
 django-cors-headers
 djangorestframework-simplejwt
 PyJWT
-# jazzmin
+Pillow
+certifi
+django-jazzmin

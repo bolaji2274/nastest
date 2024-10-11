@@ -12,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email']
         
-        
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -36,7 +35,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         
         # Authenticate using username and password
         authentication_kwargs = {
-            'username': user.username,
+            'username': user.email,
             'password': attrs['password'],
         }
         user = authenticate(**authentication_kwargs)
