@@ -1,4 +1,4 @@
-from api.models import User, Profile
+from api.models import User, Profile, Livestock, Order, Notification
 
 from django.contrib.auth import authenticate
 
@@ -11,7 +11,26 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
+class LivestockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Livestock
+        fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
         
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+ 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -21,6 +40,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         token['email'] = user.email
         token['full_name'] = user.profile.full_name
+        token['first_name'] = user.profile.first_name
+        token['last_name'] = user.profile.last_name
+        token['farm_branch_name'] = user.profile.farm_branch_name 
+        token['phone_number'] = user.profile.phone_number
         token['bio'] = user.profile.bio
         token['image'] = str(user.profile.image)
         token['verified'] = user.profile.verified
@@ -58,7 +81,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['email', 'username', 'password', 'password2']
+        fields = ['first_name', 'last_name', 'farm_branch_name', 'email', 'phone_number', 'password', 'password2']
      # Add validation to check if the email already exists
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
@@ -73,11 +96,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
     
     def create(self, validated_data):
-        user = User.objects.create(
-            username = validated_data['username'], 
-            email = validated_data['email'],
+        validated_data.pop('password2')
+        user = User.objects.create_user(
+            username=validated_data['email'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            farm_branch_name=validated_data['farm_branch_name'],
+            phone_number=validated_data['phone_number'],
+            password=validated_data['password']
         )
-        user.set_password(validated_data['password'])
-        user.save()
         
         return user

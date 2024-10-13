@@ -1,15 +1,75 @@
 from django.shortcuts import render
 
-from api.models import User
-from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer
-
+from api.models import User, Profile, Livestock, Order, Notification
+from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer, ProfileSerializer, LivestockSerializer, OrderSerializer, NotificationSerializer
+from rest_framework import viewsets, filters
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.db.models import Count, Sum
 from rest_framework.response import Response
+from django.contrib.auth import authenticate
+from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
-    
+
+class SalesDataView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        sales_data = Order.objects.values('created_at').annotate(total_sales=Sum('quantity'))
+        return Response(sales_data)
+
+class InventoryTrendsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        inventory_data = Livestock.objects.values('created_at').annotate(total_inventory=Sum('available_quantity'))
+        return Response(inventory_data)
+
+class CustomerInsightsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        customer_data = Customer.objects.values('date_joined').annotate(total_customers=Count('id'))
+        return Response(customer_data)
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+class LivestockViewSet(viewsets.ModelViewSet):
+    queryset = Livestock.objects.all()
+    serializer_class = LivestockSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'type']
+    ordering_fields = ['name', 'type', 'available_quantity', 'created_at']
+    pagination_class = StandardResultsSetPagination
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+class MetricsView(APIView):
+    def get(self, request):
+        total_livestock = Livestock.objects.count()
+        pending_orders = Order.objects.filter(status='Pending').count()
+        approved_orders = Order.objects.filter(status='Approved').count()
+
+        data = {
+            'totalLivestock': total_livestock,
+            'pendingOrders': pending_orders,
+            'approvedOrders': approved_orders,
+        }
+        return Response(data)
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
@@ -18,30 +78,6 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = ([AllowAny])
     serializer_class = RegisterSerializer
     
-    # New code for email verification start
-    # def perform_create(self, serializer):
-    #     user = serializer.save()
-    #     user.is_active = False  # Make sure user is inactive until email is verified
-    #     user.save()
-        
-    #     # Send verification email
-    #     send_verification_email(self.request, user)
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-
-    #     # Create user but set is_active to False
-    #     user = serializer.save(is_active=False)
-
-        # Send the email verification after registration
-        # send_verification_email(user=user, request=request)  # Make sure to pass 'request' to build URLs
-
-        # return Response(
-        #     {"detail": "Registration successful! Please verify your email to activate your account."},
-        #     status=status.HTTP_201_CREATED
-        # )
-        
-        # stop here
     
 # Get All Routes
 
