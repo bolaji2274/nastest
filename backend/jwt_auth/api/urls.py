@@ -1,8 +1,9 @@
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.urls import path, include
 from api import views 
-from .views import LivestockViewSet, OrderViewSet, NotificationViewSet, ProfileViewSet, MetricsView
-from .views import SalesDataView, InventoryTrendsView, CustomerInsightsView
+from .views import UserViewSet, LivestockViewSet, OrderViewSet, NotificationViewSet, ProfileViewSet, MetricsView
+from .views import TicketViewSet, FeedbackViewSet, FarmerCommitmentViewSet, ProfitSharingViewSet, ProfitDistributionViewSet
+from .views import SalesAnalysisView, CustomerAnalysisView, PerformanceMetricsView
 
 
 from rest_framework.routers import DefaultRouter
@@ -14,6 +15,12 @@ router.register(r'livestock', LivestockViewSet)
 router.register(r'orders', OrderViewSet)
 router.register(r'notifications', NotificationViewSet)
 router.register(r'profiles', ProfileViewSet)
+router.register(r'tickets', TicketViewSet)
+router.register(r'customers', UserViewSet)
+router.register(r'feedback', FeedbackViewSet)
+router.register(r'profit-sharing', ProfitSharingViewSet)
+router.register(r'farmer-commitments', FarmerCommitmentViewSet)
+router.register(r'profit-distributions', ProfitDistributionViewSet)
 
 
 urlpatterns = [
@@ -23,12 +30,9 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
     path("test/", views.testEndPoint, name="test"),
     path('metrics/', MetricsView.as_view(), name='metrics'),
-    # path("cregister/", CustomerRegistrationView.as_view(), name='customer-registration'),
-    # path('login/', CustomerLoginView.as_view(), name='customer_login'),
-    # path('ctoken/', CustomTokenObtainPairView.as_view(), name='customer-token'),
-    # path('/livestock', LivestockViewSet.as_view(), name='livestock'),
-    # path('/order', OrderViewSet.as_view(), name='order'),
-    # path('/notification', NotificationViewSet.as_view(), name='notification'),
+    path('sales-analytics/', SalesAnalysisView.as_view(), name='sales-analytics'),
+    path('customer-analytics/', CustomerAnalysisView.as_view(), name='customer-analytics'),
+    path('operational-performance/', PerformanceMetricsView.as_view(), name='operational-performance'),
     path('', include(router.urls)),
     path('', views.getRoutes), 
 ]

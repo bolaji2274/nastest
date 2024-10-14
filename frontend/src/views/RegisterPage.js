@@ -5,22 +5,26 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 function RegisterPage() {
+  
+  const [first_name, setFirstName] = useState("")
+  const [last_name, setLastName] = useState("")
+  const [farm_branch_name, setFarmBranchName] = useState("")
   const [email, setEmail] = useState("")
-  const [username, setUsername] = useState("")
+  const [phone_number, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
 
   const { registerUser, errors, clearErrors } = useContext(AuthContext)
 
   console.log(errors.email);
-  console.log(username);
+  console.log(first_name);
   console.log(password);
   console.log(password2);
 
   const handleSubmit = async e => {
     e.preventDefault()
     clearErrors();  // Clear errors before attempting a new registration
-    registerUser(email, username, password, password2)
+    registerUser(first_name, last_name, farm_branch_name, email, phone_number, password, password2)
   }
   return (
     <div>
@@ -60,6 +64,26 @@ function RegisterPage() {
                   </h5>
                   <div className="form-outline mb-4">
                     <input
+                      type="text"
+                      id="form2Example17"
+                      className="form-control form-control-lg"
+                      placeholder="First Name"
+                      onChange={e => setFirstName(e.target.value)}
+                    />
+                    {errors.first_name && <p style={{ color: 'red' }}>{errors.first_name}</p>} {/* Show email error */}
+                  </div>
+                  <div className="form-outline mb-4">
+                    <input
+                      type="text"
+                      id="form2Example17"
+                      className="form-control form-control-lg"
+                      placeholder="Last Name"
+                      onChange={e => setLastName(e.target.value)}
+                    />
+                    {errors.last_name && <p style={{ color: 'red' }}>{errors.last_name}</p>} {/* Show email error */}
+                  </div>
+                  <div className="form-outline mb-4">
+                    <input
                       type="email"
                       id="form2Example17"
                       className="form-control form-control-lg"
@@ -73,11 +97,23 @@ function RegisterPage() {
                       type="text"
                       id="form2Example17"
                       className="form-control form-control-lg"
-                      placeholder="Username"
-                      onChange={e => setUsername(e.target.value)}
+                      placeholder="Farm Branch"
+                      onChange={e => setFarmBranchName(e.target.value)}
                     />
-                    {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>} {/* Show username error */}
+                    {errors.farm_branch_name && <p style={{ color: 'red' }}>{errors.farm_branch_name}</p>} {/* Show email error */}
                   </div>
+                  <div className="form-outline mb-4">
+                    <input
+                      type="number"
+                      id="form2Example17"
+                      className="form-control form-control-lg"
+                      placeholder="Phone Number"
+                      onChange={e => setPhoneNumber(e.target.value)}
+                    />
+                    {errors.email && <p style={{ color: 'red' }}>{errors.phone_number}</p>} {/* Show email error */}
+                  </div>
+                  
+                 
                   <div className="form-outline mb-4">
                     <input
                       type="password"

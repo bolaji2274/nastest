@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Paper, Typography, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, IconButton } from '@mui/material';
+import { Container, Paper, Typography, TextField, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import api from './api';
+import api from '../../context/api';
+// import useAxios from '../../utils/useAxios'
+
 
 const UserManagement = () => {
+    // const api = useAxios();
     const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState({
         first_name: '',

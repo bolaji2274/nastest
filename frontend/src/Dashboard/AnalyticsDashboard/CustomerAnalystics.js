@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Paper } from '@mui/material';
+import { Container, Typography, Paper, Box } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import api from './api';
+// import api from '../../context/api';
+import useAxios from '../../utils/useAxios'
 
-const CustomerInsights = () => {
+
+
+const CustomerAnalytics = () => {
     const [customerData, setCustomerData] = useState([]);
-
+    const api = useAxios();
     useEffect(() => {
         const fetchData = async () => {
-            const result = await api.get('/customer-insights/');
+            const result = await api.get('/customer-analytics/');
             setCustomerData(result.data);
         };
         fetchData();
@@ -16,7 +19,7 @@ const CustomerInsights = () => {
 
     return (
         <Container>
-            <Typography variant="h6" gutterBottom>Customer Insights</Typography>
+            <Typography variant="h6" gutterBottom>Customer Analytics</Typography>
             <Paper sx={{ p: 2, mt: 2 }}>
                 <BarChart
                     width={600}
@@ -38,4 +41,4 @@ const CustomerInsights = () => {
     );
 };
 
-export default CustomerInsights;
+export default CustomerAnalytics;

@@ -1,40 +1,40 @@
 import React from 'react';
 import { Container, Grid, Paper, Typography, Box } from '@mui/material';
-import InventoryManagement from './InventoryManagement';
-import OrderManagement from './OrderManagement';
-import CustomerManagement from './CustomerManagement';
-import ProfitSharing from './ProfitSharingDashboard';
-import Notifications from './Notifications';
+import UserProfile from './UserProfile';
+// import LivestockOffers from './LivestockOffers';
+import ApplyForLivestock from './ApplyForLivestock';
+import OrderStatus from './OrderStatus';
+import CustomerNotifications from './CustomerNotifications';
 
-const AdminDashboard = () => {
+const CustomerDashboard = () => {
     return (
         <Container maxWidth="lg">
             <Box sx={{ mt: 4 }}>
-                <Typography variant="h4" gutterBottom>Admin Dashboard</Typography>
+                <Typography variant="h4" gutterBottom>Customer Dashboard</Typography>
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
                         <Paper>
-                            <InventoryManagement />
+                            <UserProfile />
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Paper>
-                            <OrderManagement />
+                            {/* <LivestockOffers /> */}
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Paper>
-                            <CustomerManagement />
+                            <ApplyForLivestock />
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Paper>
-                            <ProfitSharing />
+                            <OrderStatus />
                         </Paper>
                     </Grid>
                     <Grid item xs={12}>
                         <Paper>
-                            <Notifications />
+                            <CustomerNotifications />
                         </Paper>
                     </Grid>
                 </Grid>
@@ -43,4 +43,4 @@ const AdminDashboard = () => {
     );
 };
 
-export default AdminDashboard;
+export default CustomerDashboard;

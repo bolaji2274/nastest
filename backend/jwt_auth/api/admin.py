@@ -11,7 +11,7 @@ class LivestockAdmin(admin.ModelAdmin):
 # Register the Order model
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['customer', 'livestock', 'quantity', 'status']
+    list_display = ['livestock', 'quantity']
     search_fields = ['customer__email', 'livestock__name']
 
 # Register the Notification model

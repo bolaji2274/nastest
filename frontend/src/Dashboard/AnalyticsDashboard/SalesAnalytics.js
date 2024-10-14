@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import api from './api';
+// import api from '../../context/api';
+import useAxios from '../../utils/useAxios'
 
-const SalesData = () => {
+
+
+const SalesAnalytics = () => {
     const [salesData, setSalesData] = useState([]);
-
+    const api = useAxios();
     useEffect(() => {
         const fetchData = async () => {
-            const result = await api.get('/sales-data/');
+            const result = await api.get('/sales-analysis/');
             setSalesData(result.data);
         };
         fetchData();
@@ -16,7 +19,7 @@ const SalesData = () => {
 
     return (
         <Container>
-            <Typography variant="h6" gutterBottom>Sales Data</Typography>
+            <Typography variant="h6" gutterBottom>Sales Analysis</Typography>
             <Paper sx={{ p: 2, mt: 2 }}>
                 <LineChart
                     width={600}
@@ -38,4 +41,4 @@ const SalesData = () => {
     );
 };
 
-export default SalesData;
+export default SalesAnalytics;

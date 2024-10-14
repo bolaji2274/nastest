@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from api.models import User, Profile, Livestock, Order, Notification
-from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer, ProfileSerializer, LivestockSerializer, OrderSerializer, NotificationSerializer
+from api.models import User, Profile, Livestock, Order, Notification, Ticket, Feedback, ProfitDistribution, ProfitSharing, FarmerCommitment
+from api.serializer import MyTokenObtainPairSerializer, UserSerializer, RegisterSerializer, ProfileSerializer, LivestockSerializer, OrderSerializer, NotificationSerializer, TicketSerializer, FeedbackSerializer, ProfitDistributionSerializer, ProfitSharingSerializer, FarmerCommitmentSerializer
 from rest_framework import viewsets, filters
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -32,13 +32,56 @@ class CustomerInsightsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        customer_data = Customer.objects.values('date_joined').annotate(total_customers=Count('id'))
+        customer_data = User.objects.values('date_joined').annotate(total_customers=Count('id'))
         return Response(customer_data)
 
+class SalesAnalysisView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        sales_data = Order.objects.values('created_at').annotate(total_sales=Sum('quantity'))
+        return Response(sales_data)
+
+class CustomerAnalysisView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        customer_data = User.objects.values('date_joined').annotate(total_customers=Count('id'))
+        return Response(customer_data)
+
+class InventoryAnalysisView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        inventory_data = Livestock.objects.values('created_at').annotate(total_inventory=Sum('available_quantity'))
+        return Response(inventory_data)
+
+class PerformanceMetricsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        total_customers = User.objects.count()
+        total_orders = Order.objects.count()
+        total_livestock = Livestock.objects.count()
+
+        data = {
+            'total_customers': total_customers,
+            'total_orders': total_orders,
+            'total_livestock': total_livestock,
+        }
+        return Response(data)
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
+    
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+
+class FeedbackViewSet(viewsets.ModelViewSet):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
 class LivestockViewSet(viewsets.ModelViewSet):
     queryset = Livestock.objects.all()
     serializer_class = LivestockSerializer
@@ -54,7 +97,27 @@ class OrderViewSet(viewsets.ModelViewSet):
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['message', 'notification_type']
+    ordering_fields = ['created_at']
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Notification.objects.all()  # Admin sees all notifications
+        return Notification.objects.filter(customer=user)  # Customer sees their own notifications
+class ProfitSharingViewSet(viewsets.ModelViewSet):
+    queryset = ProfitSharing.objects.all()
+    serializer_class = ProfitSharingSerializer
 
+class FarmerCommitmentViewSet(viewsets.ModelViewSet):
+    queryset = FarmerCommitment.objects.all()
+    serializer_class = FarmerCommitmentSerializer
+
+class ProfitDistributionViewSet(viewsets.ModelViewSet):
+    queryset = ProfitDistribution.objects.all()
+    serializer_class = ProfitDistributionSerializer
 class MetricsView(APIView):
     def get(self, request):
         total_livestock = Livestock.objects.count()
@@ -67,6 +130,10 @@ class MetricsView(APIView):
             'approvedOrders': approved_orders,
         }
         return Response(data)
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer

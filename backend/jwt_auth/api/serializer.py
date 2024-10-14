@@ -1,4 +1,4 @@
-from api.models import User, Profile, Livestock, Order, Notification
+from api.models import User, Profile, Livestock, Order, Notification, Ticket, Feedback, ProfitSharing, ProfitDistribution, FarmerCommitment
 
 from django.contrib.auth import authenticate
 
@@ -10,7 +10,31 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'first_name', 'last_name', 'farm_branch_name', 'email', 'phone_number']
+        
+class ProfitSharingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfitSharing
+        fields = '__all__'
+
+class FarmerCommitmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FarmerCommitment
+        fields = '__all__'
+
+class ProfitDistributionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfitDistribution
+        fields = '__all__'
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = '__all__'
 class LivestockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Livestock

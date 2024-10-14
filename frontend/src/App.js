@@ -5,13 +5,18 @@ import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 
 import HomePage from "./views/HomePage";
-import Dashboard from "./views/Dashboard";
+// import Dashboard from "./views/Dashboard";
 import LoginPage from "./views/LoginPage";
 import Contact from "./pages/Contact";
 import RegisterPage from "./views/RegisterPage";
 import NotFound from "./views/NotFound";
 import TestLogin from "./views/TestLogin";
 import Spinner from "./pages/Spinner";
+// import Dashboard from './Dashboard'
+// import AnalyticsDashboard from "./Dashboard/AnalyticsDashboard/AnalyticsDashboard";
+// import AdminDashboard from "./Dashboard/AdminDashboard/AdminDashboard";
+import CustomerDashboard from "./Dashboard/CustomerDashboard/CustomerDashboard";
+// import CustomerDashboard from "./Dashboard/CustomerDashboard/CustomerDashboard";
 
 import CustomerRegistration from "./pages/CustomerRegistration";
 
@@ -36,7 +41,7 @@ function App() {
               path="/dashboard"
               element={
                 <PrivateRoute>
-                  <Dashboard />
+                  <CustomerDashboard />
                 </PrivateRoute>
               }
             />

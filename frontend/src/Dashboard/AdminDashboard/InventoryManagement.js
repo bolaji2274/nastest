@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Table, TableHead, TableRow, TableCell, TableBody, Typography, Box, Button, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
-import api from './api';
+import api from '../../context/api';
+// import useAxios from '../../utils/useAxios'
+
 
 const InventoryManagement = () => {
+    // const api = useAxios();
     const [livestock, setLivestock] = useState([]);
     const [newLivestock, setNewLivestock] = useState({ name: '', type: '', available_quantity: 0 });
     const [search, setSearch] = useState('');

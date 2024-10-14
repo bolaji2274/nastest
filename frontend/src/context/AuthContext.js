@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
         // }
     };
     // Register function with detailed error handling
-    const registerUser = async (email, username, password, password2) => {
+    const registerUser = async (first_name, last_name, farm_branch_name, email, phone_number, password, password2) => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/register/", {
                 method: "POST",
@@ -129,8 +129,11 @@ export const AuthProvider = ({ children }) => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    first_name,
+                    last_name,
+                    farm_branch_name,
                     email,
-                    username,
+                    phone_number,
                     password,
                     password2,
                 }),

@@ -19,7 +19,39 @@ class User(AbstractUser):
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+    
+class ProfitSharing(models.Model):
+    farmer = models.ForeignKey(User, on_delete=models.CASCADE)
+    profit_ratio = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+class FarmerCommitment(models.Model):
+    farmer = models.ForeignKey(User, on_delete=models.CASCADE)
+    commitment = models.CharField(max_length=255)
+    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Completed', 'Completed')])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class ProfitDistribution(models.Model):
+    farmer = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    date = models.DateTimeField()
+    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Distributed', 'Distributed')])
+
+class Ticket(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    description = models.TextField()
+    status = models.CharField(max_length=50, choices=[('Open', 'Open'), ('In Progress', 'In Progress'), ('Closed', 'Closed')])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Feedback(models.Model):
+    ticket = models.OneToOneField(Ticket, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField()
+    comments = models.TextField()
 
 class Livestock(models.Model):
     name = models.CharField(max_length=100)
@@ -36,10 +68,16 @@ class Order(models.Model):
     status = models.CharField(max_length=50)
 
 class Notification(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    TYPES = [
+        ('order', 'Order'),
+        ('inventory', 'Inventory'),
+        ('general', 'General'),
+    ]
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField()
+    notification_type = models.CharField(max_length=50, choices=TYPES)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Paper, Typography, Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import api from './api';
+// import api from '../../context/api';
+import useAxios from '../../utils/useAxios'
 
-const Notifications = () => {
+const CustomerNotifications = () => {
+    const api = useAxios();
     const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
@@ -38,4 +40,4 @@ const Notifications = () => {
     );
 };
 
-export default Notifications;
+export default CustomerNotifications;

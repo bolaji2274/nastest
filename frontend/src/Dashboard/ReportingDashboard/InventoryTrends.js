@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import api from './api';
+// import api from '../../context/api'
+import useAxios from '../../utils/useAxios'
+
+
 
 const InventoryTrends = () => {
     const [inventoryData, setInventoryData] = useState([]);
-
+    const api = useAxios();
     useEffect(() => {
         const fetchData = async () => {
             const result = await api.get('/inventory-trends/');
