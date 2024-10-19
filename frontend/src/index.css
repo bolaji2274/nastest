@@ -12,8 +12,46 @@ body {
   /* font-family: 'Poppins', sans-serif; */
 
 }
-
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/* Slick Carousel styles */
+.slick-slider {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.slick-prev, .slick-next {
+    color: black !important;
+}
+
+.slick-dots li button:before {
+    color: black !important;
+}
+.scrolling-text {
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrolling-text-content {
+  display: inline-block;
+  position: absolute;
+  will-change: transform;
+  animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }

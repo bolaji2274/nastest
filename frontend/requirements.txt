@@ -8,5 +8,8 @@ sweetalert2
 @emotion/styled
 recharts
 @mui/icons-material
+react-scroll
+react-slick 
+slick-carousel
 
 
