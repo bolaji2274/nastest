@@ -34,5 +34,5 @@ urlpatterns = [
     path('customer-analytics/', CustomerAnalysisView.as_view(), name='customer-analytics'),
     path('operational-performance/', PerformanceMetricsView.as_view(), name='operational-performance'),
     path('', include(router.urls)),
-    path('', views.getRoutes), 
+    path('route/', views.getRoutes), 
 ]

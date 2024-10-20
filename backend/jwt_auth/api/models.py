@@ -10,12 +10,10 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=155)
     farm_branch_name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
-    is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-    
-    groups = models.ManyToManyField(Group, related_name='customer_groups')
-    user_permissions = models.ManyToManyField(Permission, related_name='customer_permissions')
+    # is_active = models.BooleanField(default=False)
+    # is_staff = models.BooleanField(default=False)
+    # is_superuser = models.BooleanField(default=False)
+
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
