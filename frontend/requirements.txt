@@ -11,5 +11,5 @@ recharts
 react-scroll
 react-slick 
 slick-carousel
-
-
+lucide-react
+framer-motion

@@ -2,6 +2,7 @@
 import { createContext, useState, useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 const swal = require('sweetalert2')
 
 const AuthContext = createContext()
@@ -24,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     const [errors, setErrors] = useState({});  // Store form errors as an object
 
     const navigate = useNavigate(); // useNavigate returns the navigate function
-
+    const location = useLocation();
     const loginUser = async (email, password) => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/token/", {
@@ -34,14 +35,16 @@ export const AuthProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ email, password }),
             });
-
+            // Get the page the user tried to access before being redirected to login
+            const from = location.state?.from?.pathname || "/";
             const data = await response.json(); // Extract JSON data from response
             if (response.status === 200) {
                 setAuthTokens(data);
                 setUser(jwtDecode(data.access));
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 setErrors({});  // Clear previous errors
-                navigate("/");
+                // navigate("/dashboard");
+                navigate(from, { replace: true });  // Redirect to the protected page after login
             } else if (response.status === 400) {
                 // Handle form field errors for login (e.g. invalid credentials)
                 setErrors(data); // Make sure backend returns field errors
