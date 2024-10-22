@@ -17,8 +17,8 @@
     }
   ],
   "env": {
-    "DATABASE_URL": "@database_url", 
-    "SECRET_KEY": "@secret_key",  
+    "DATABASE_URL": "postgresql://postgres:rsryyszTqRCPNagcSDTqOhzmuwXLZZUf@junction.proxy.rlwy.net:31419/railway", 
+    "SECRET_KEY": "django-insecure-$t7&d=@m$9!+ylfh9lxlajd(-pg5*!4gysrh#d&b2pu^2j*27s",  
     "DEBUG": "false"
   }
 }
