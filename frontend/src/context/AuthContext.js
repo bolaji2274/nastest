@@ -73,55 +73,7 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             });
         }
-        // const response = await fetch("http://127.0.0.1:8000/api/token/", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({ email, password }),
-        // });
-
-        // const data = await response.json();
-        // if (response.status === 200) {
-        //     setAuthTokens(data);
-        //     setUser(jwtDecode(data.access));
-        //     localStorage.setItem('authTokens', JSON.stringify(data));
-        //     setErrors({});  // Clear previous errors
-        //     navigate("/dashboard"); // Correct usage of navigate
-        //     swal.fire({
-        //         title: "Login Successful",
-        //         icon: "success",
-        //         toast: true,
-        //         timer: 6000,
-        //         position: 'top-right',
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //     })
-        // } else if (response.status === 400) {
-        //     // Handle form field errors for login
-        //     setErrors(data);
-        //     swal.fire({
-        //         title: "username or password does not exit",
-        //         icon: "error",
-        //         toast: true,
-        //         timer: 6000,
-        //         position: 'top-right',
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //     })
-        // }
-        
-        // else {
-        //     swal.fire({
-        //         title: "username or password does not exit",
-        //         icon: "error",
-        //         toast: true,
-        //         timer: 6000,
-        //         position: 'top-right',
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //     })
-        // }
+     
     };
     // Register function with detailed error handling
     const registerUser = async (first_name, last_name, farm_branch_name, email, phone_number, password, password2) => {
@@ -183,55 +135,7 @@ export const AuthProvider = ({ children }) => {
                 showConfirmButton: false,
             });
         }
-        // const response = await fetch("http://127.0.0.1:8000/api/register/", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         email,
-        //         username,
-        //         password,
-        //         password2,
-        //     }),
-        // });
 
-        // if (response.status === 201) {
-        //     setErrors({});  // Clear any previous errors
-        //     navigate("/login"); // Correct usage of navigate
-        //     swal.fire({
-        //         title: "Registration Successful, Login Now",
-        //         icon: "success",
-        //         toast: true,
-        //         timer: 6000,
-        //         position: 'top-right',
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //     })  
-        // } else if (response.status === 400) {
-        //     // Capture Django-like form field errors
-        //     setErrors(data);
-        //     swal.fire({
-        //         title: "password does not match",
-        //         icon: "success",
-        //         toast: true,
-        //         timer: 6000,
-        //         position: 'top-right',
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //     })
-        // }   
-        // else {
-        //     swal.fire({
-        //         title: "password does not match",
-        //         icon: "success",
-        //         toast: true,
-        //         timer: 6000,
-        //         position: 'top-right',
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //     })
-        // }
     };
 
     const logoutUser = () => {
@@ -386,44 +290,3 @@ export const AuthProvider = ({ children }) => {
 
 export default AuthContext
 
-
-
-// function AuthContext() {
-//   return (
-//     <div>
-      //     const [user, setUser] = useState(() => {
-//     const token = localStorage.getItem('authTokens');
-//     // Check if token exists before decoding
-//     return token ? jwtDecode(token) : null;
-// });
-//  const [user, setUser] = useState(null);
-
-//     useEffect(() => {
-//         const token = localStorage.getItem('authTokens');
-//         if (token) {
-//             try {
-//                 const decodedUser = jwtDecode(token);
-//                 setUser(decodedUser);  // Successfully set user after decoding
-//             } catch (error) {
-//                 console.error('Invalid token', error);
-//                 setUser(null);  // Reset user if decoding fails
-//             }
-//         }
-//     }, []);  // Empty dependency array to run only on component mount
-
-//     // Fallback if user is not initialized yet
-//     if (!user) {
-//         return <div>Loading...</div>;
-//     }
-
-//     // Once the user is available, render the component
-//     return (
-//         <div>
-//             <h1>Welcome, {user.name}</h1>
-//         </div>
-//     );
-//     </div>
-//   )
-// }
-
-// export default AuthContext

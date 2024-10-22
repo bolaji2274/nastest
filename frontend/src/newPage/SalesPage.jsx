@@ -6,6 +6,7 @@ import { CreditCard, DollarSign, ShoppingCart, TrendingUp } from "lucide-react";
 import SalesOverviewChart from "../components/sales/SalesOverviewChart";
 import SalesByCategoryChart from "../components/sales/SalesByCategoryChart";
 import DailySalesTrend from "../components/sales/DailySalesTrend";
+import Sidebar from "../components/common/Sidebar";
 
 const salesStats = {
 	totalRevenue: "$1,234,567",
@@ -16,6 +17,14 @@ const salesStats = {
 
 const SalesPage = () => {
 	return (
+		  <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>
+			{/* BG */}
+			<div className='fixed inset-0 z-0'>
+				<div className='absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80' />
+				<div className='absolute inset-0 backdrop-blur-sm' />
+			</div>
+
+			<Sidebar />
 		<div className='flex-1 overflow-auto relative z-10'>
 			<Header title='Sales Dashboard' />
 
@@ -50,6 +59,7 @@ const SalesPage = () => {
 					<DailySalesTrend />
 				</div>
 			</main>
+		</div>
 		</div>
 	);
 };

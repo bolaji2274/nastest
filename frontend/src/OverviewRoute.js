@@ -21,7 +21,7 @@ function OverviewRoute() {
 
 			<Sidebar />
 			<Routes>
-				{/* <Route path='/overview' element={<OverviewPage />} /> */}
+				{/* <Route path='/dashboard/overview' element={<OverviewPage />} /> */}
 				<Route path='/products' element={<ProductsPage />} />
 				<Route path='/users' element={<UsersPage />} />
 				<Route path='/sales' element={<SalesPage />} />

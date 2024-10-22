@@ -1,6 +1,6 @@
 import React from "react";
 import { Suspense } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -12,17 +12,17 @@ import RegisterPage from "./views/RegisterPage";
 import NotFound from "./views/NotFound";
 import TestLogin from "./views/TestLogin";
 import Spinner from "./pages/Spinner";
-import OverviewRoute from "./OverviewRoute";
-
+// import OverviewRoute from "./OverviewRoute";
 
 // new dashboard overview
+import Dashboard from "./newPage/Dashboard";
 import OverviewPage from "./newPage/OverviewPage";
-// import ProductsPage from "./newPage/ProductsPage";
-// import UsersPage from "./newPage/UsersPage";
-// import SalesPage from "./newPage/SalesPage";
-// import OrdersPage from "./newPage/OrdersPage";
-// import AnalyticsPage from "./newPage/AnalyticsPage";
-// import SettingsPage from "./newPage/SettingsPage";
+import ProductsPage from "./newPage/ProductsPage";
+import UsersPage from "./newPage/UsersPage";
+import SalesPage from "./newPage/SalesPage";
+import OrdersPage from "./newPage/OrdersPage";
+import AnalyticsPage from "./newPage/AnalyticsPage";
+import SettingsPage from "./newPage/SettingsPage";
 
 // import CustomerRegistration from "./pages/CustomerRegistration";
 
@@ -31,8 +31,7 @@ const About = React.lazy(() => import("./pages/About"));
 
 function App() {
   return (
-    <Router>
-      {/* <OverviewRoute/> */}
+    <>
       <AuthProvider>
         <Suspense fallback={<Spinner />}>
           <Routes>
@@ -45,20 +44,28 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
 
             {/* new Route */}
+            {/* <Route path='/dashboard' element={<OverviewPage />} /> */}
+				<Route path='/products' element={<ProductsPage />} />
+				<Route path='/users' element={<UsersPage />} />
+				<Route path='/sales' element={<SalesPage />} />
+				<Route path='/orders' element={<OrdersPage />} />
+				<Route path='/analytics' element={<AnalyticsPage />} />
+				<Route path='/settings' element={<SettingsPage />} />
 
             <Route
               path="/dashboard"
               element={
                 <PrivateRoute>
-                  <OverviewRoute />
+                  <Dashboard />
                 </PrivateRoute>
               }
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {/* <OverviewRoute /> */}
         </Suspense>
       </AuthProvider>
-    </Router>
+    </>
   );
 }
 
