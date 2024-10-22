@@ -37,13 +37,13 @@ SSL_CERT_FILE = certifi.where()
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$t7&d=@m$9!+ylfh9lxlajd(-pg5*!4gysrh#d&b2pu^2j*27s'
+# SECRET_KEY = 'django-insecure-$t7&d=@m$9!+ylfh9lxlajd(-pg5*!4gysrh#d&b2pu^2j*27s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Application definition
 
