@@ -1,19 +1,24 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "jwt_auth/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
-      },
-      {
-        "src": "build_files.sh",
+  "version": 2,
+  "builds": [
+    {
+      "src": "jwt_auth/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "jwt_auth/wsgi.py"
-      }
-    ]
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "jwt_auth/wsgi.py"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "@database_url", 
+    "SECRET_KEY": "@secret_key",  
+    "DEBUG": "false"
   }
+}

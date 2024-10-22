@@ -2,7 +2,7 @@
 source env/bin/activate
 
 pip install -r requirement.txt 
-python3.9 manage.py collectstatic
+# python3.9 manage.py collectstatic
 # Run collectstatic to gather static files
 # python manage.py collectstatic --noinput
 
