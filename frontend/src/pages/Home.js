@@ -16,6 +16,7 @@ import Contact from "./Contact.js";
 import Services from "./Services.js";
 import Hero from "./Hero.js";
 import Nav from './Nav.js'
+import ProductList from "./Product.js";
 
 const Home = () => {
   return (
@@ -33,6 +34,8 @@ const Home = () => {
       {/* Introduction Section */}
       <Container maxWidth="lg" className="intro-section">
         <Element name="about">
+                  <ProductList/>
+
           <About />
         </Element>{" "}
         <Typography variant="h4" gutterBottom className="text-center">
