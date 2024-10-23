@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 const userData = [
 	{ id: 1, name: "Adekunle Tijani", email: "tijani@example.com", role: "Customer", status: "Active" },
 	{ id: 2, name: "Bolaji Hammed", email: "hammedbolajihammed@gmail.com", role: "Admin", status: "Active" },
-	{ id: 3, name: "Zakarriya Alliyy", email: "bob@example.com", role: "Customer", status: "Inactive" },
+	{ id: 3, name: "Zakarriya Alliyy", email: "alliyzakariiya@gmail.com", role: "Customer", status: "Inactive" },
 	// { id: 4, name: "Alice Brown", email: "alice@example.com", role: "Customer", status: "Active" },
 	// { id: 5, name: "Charlie Wilson", email: "charlie@example.com", role: "Moderator", status: "Active" },
 ];
