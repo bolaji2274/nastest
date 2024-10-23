@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const loginUser = async (email, password) => {
         try {
-            const response = await fetch("http://52.158.47.98:8000/api/token/", {
+            const response = await fetch("https://52.158.47.98:8000/api/token/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
