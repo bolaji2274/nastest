@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     // Register function with detailed error handling
     const registerUser = async (first_name, last_name, farm_branch_name, email, phone_number, password, password2) => {
         try {
-            const response = await fetch("http://52.158.47.98:8000/api/register/", {
+            const response = await fetch("https://52.158.47.98:8000/api/register/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
