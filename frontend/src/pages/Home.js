@@ -15,6 +15,7 @@ import AppFooter from "./AppFooter.js";
 import Contact from "./Contact.js";
 import Services from "./Services.js";
 import Hero from "./Hero.js";
+import Nav from './Nav.js'
 
 const Home = () => {
   return (
@@ -22,6 +23,7 @@ const Home = () => {
       {/* Hero Section */}
       {/* <Navbar/> */}
       <Header />
+      <Nav/>
       {/* <LazyLoadImage
       alt="Example"
         effect="blur"

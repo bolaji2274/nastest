@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const loginUser = async (email, password) => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/token/", {
+            const response = await fetch("http://52.158.47.98:8000/api/token/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -43,8 +43,8 @@ export const AuthProvider = ({ children }) => {
                 setUser(jwtDecode(data.access));
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 setErrors({});  // Clear previous errors
-                // navigate("/dashboard");
-                navigate(from, { replace: true });  // Redirect to the protected page after login
+                navigate("/dashboard");
+                // navigate(from, { replace: true });  // Redirect to the protected page after login
             } else if (response.status === 400) {
                 // Handle form field errors for login (e.g. invalid credentials)
                 setErrors(data); // Make sure backend returns field errors
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     // Register function with detailed error handling
     const registerUser = async (first_name, last_name, farm_branch_name, email, phone_number, password, password2) => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/register/", {
+            const response = await fetch("http://52.158.47.98:8000/api/register/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

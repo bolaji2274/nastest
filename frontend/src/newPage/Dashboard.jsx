@@ -23,6 +23,7 @@ const Dashboard = () => {
 
 			<Sidebar />
       <OverviewPage/>
+	  		
 			<Routes>
 				{/* <Route path='/overview' element={<OverviewPage />} /> */}
 				<Route path='/products' element={<ProductsPage />} />

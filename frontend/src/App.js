@@ -6,7 +6,9 @@ import { AuthProvider } from "./context/AuthContext";
 
 // import HomePage from "./views/HomePage";
 // import Dashboard from "./views/Dashboard";
-import LoginPage from "./views/LoginPage";
+
+// import LoginPage from "./views/LoginPage";
+import LoginPage from "./views/NewLogin";
 import Contact from "./pages/Contact";
 import RegisterPage from "./views/RegisterPage";
 import NotFound from "./views/NotFound";

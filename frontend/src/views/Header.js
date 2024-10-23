@@ -1,41 +1,26 @@
 import React, { useState, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import AuthContext from "../context/AuthContext";
-import { Navbar, Nav, Container, Button, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import { Link as ScrollLink, Element } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import logo from "../assets/images/nasfarm-logo.jpg";
-import About from "../pages/About";
-import "../styles/nav.css";
-
-// function Navbar() {
-//   const {user, logoutUser} = useContext(AuthContext)
-//   const token = localStorage.getItem("authTokens")
-
-//   if (token){
-//     const decode = jwtDecode(token)
-//     var user_id = decode.user_id
-//   }
+// import "../styles/nav.css";
 
 const MyNavbar = () => {
-  const [expanded, setExpanded] = useState(false); // State for toggling navbar
+  const [expanded, setExpanded] = useState(false);
   const { user, logoutUser } = useContext(AuthContext);
   const token = localStorage.getItem("authTokens");
+  let user_id;
 
   if (token) {
     const decode = jwtDecode(token);
-    var user_id = decode.user_id;
+    user_id = decode.user_id;
   }
+
   return (
-    <Navbar
-      expanded={expanded}
-      expand="lg"
-      bg="dark"
-      variant="dark"
-      sticky="top"
-    >
+    <Navbar expanded={expanded} expand="lg" bg="blue" variant="dark" sticky="top">
       <Container>
-        {/* <Navbar.Brand href="#">MyBrand</Navbar.Brand> */}
         <Link to="/">
           <img
             style={{
@@ -45,84 +30,31 @@ const MyNavbar = () => {
               borderRadius: "50%",
             }}
             src={logo}
-            alt=""
+            alt="Nasfarm Logo"
           />
         </Link>
-
-        <Navbar.Toggle
+        <Navbar.Toggle 
           aria-controls="basic-navbar-nav"
-          onClick={() => setExpanded(expanded ? false : true)} // Toggle state on click
+          onClick={() => setExpanded(expanded ? false : true)}
         />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
-            <Nav.Link as={Link} to="/">
-              Home
-            </Nav.Link>
-            <Nav.Link>
-               <ScrollLink to="about" smooth={true} duration={200}>
-                About
-              </ScrollLink>
-              </Nav.Link>
-           
-
-           <Nav.Link>
-               <ScrollLink to="services" smooth={true} duration={200}>
-                Services
-              </ScrollLink>
-              </Nav.Link>
-            <Nav.Link>
-               <ScrollLink to="contact" smooth={true} duration={200}>
-                Contact
-              </ScrollLink>
-              </Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={ScrollLink} to="services" smooth={true} duration={200}>Services</Nav.Link>
+            <Nav.Link as={ScrollLink} to="contact" smooth={true} duration={200}>Contact</Nav.Link>
           </Nav>
-
           <Nav>
-            {/* <NavDropdown title="More" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action2">Another Action</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action3">Something Else</NavDropdown.Item>
-            </NavDropdown> */}
-            {token === null && (
+            {token ? (
               <>
-                {/* <li className="nav-item">
-                <Link to="/login" variant="outline-info" className="nav-link">Login</Link>
-              </li> */}
-                {/* <li className="nav-item">
-                <Link to="/register" variant="outline-info" className="nav-link">Register</Link>
-              </li> */}
-                <Button
-                  variant="outline-info"
-                  className="ms-2 head-log"
-                  as={Link}
-                  to="/login"
-                >
-                  Login
-                </Button>
+                <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
+                <Nav.Link as={Link} onClick={logoutUser} style={{ cursor: "pointer" }}>Logout</Nav.Link>
+              </>
+            ) : (
+              <>
+                <Button variant="outline-info" className="ms-2" as={Link} to="/login">Login</Button>
+                <Button variant="outline-info" className="ms-2" as={Link} to="/register">Register</Button>
               </>
             )}
-            {token !== null && (
-              <>
-                <li className="nav-item">
-                  <Link to="/dashboard" className="nav-link">
-                    Dashboard
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={logoutUser}
-                  >
-                    Logout
-                  </Link>
-                </li>
-              </>
-            )}
-
-            {/* <Button variant="outline-info" className="ms-2 head-log" as={Link} to="/login">Login</Button> */}
-            {/* <Button variant="outline-info" className="ms-2" as={Link} to="/register">Register</Button> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

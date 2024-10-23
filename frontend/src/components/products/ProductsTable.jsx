@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
-import { useState } from "react";
+// import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios'
 
 const PRODUCT_DATA = [
 	{ id: 1, name: "Wireless Earbuds", category: "Electronics", price: 59.99, stock: 143, sales: 1200 },
@@ -11,13 +13,26 @@ const PRODUCT_DATA = [
 ];
 
 const ProductsTable = () => {
+	const [data, setData] = useState(null);
+
+  	useEffect(() => {
+    // Fetch data from the API
+    axios.get('http://127.0.0.1:8000/api/product-dashboard/')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the dashboard data!", error);
+      });
+  }, []);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
+	// const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
+	const [filteredProducts, setFilteredProducts] = useState(data);
 
 	const handleSearch = (e) => {
 		const term = e.target.value.toLowerCase();
 		setSearchTerm(term);
-		const filtered = PRODUCT_DATA.filter(
+		const filtered = data.filter(
 			(product) => product.name.toLowerCase().includes(term) || product.category.toLowerCase().includes(term)
 		);
 

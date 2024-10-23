@@ -7,8 +7,26 @@ import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
 import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
 import SalesTrendChart from "../components/products/SalesTrendChart";
 import ProductsTable from "../components/products/ProductsTable";
+import { useState, useEffect } from "react";
+import axios from 'axios'
 
 const ProductsPage = () => {
+	const [data, setData] = useState(null);
+
+  	useEffect(() => {
+    // Fetch data from the API
+    axios.get('http://127.0.0.1:8000/api/product-dashboard/')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the dashboard data!", error);
+      });
+  }, []);
+
+// 	if (!data) {
+//     return <div>Loading...</div>;
+//   }
 	return (
 		  <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>
 			{/* BG */}
@@ -29,10 +47,10 @@ const ProductsPage = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 1 }}
 				>
-					<StatCard name='Total Products' icon={Package} value={1234} color='#6366F1' />
-					<StatCard name='Top Selling' icon={TrendingUp} value={89} color='#10B981' />
-					<StatCard name='Low Stock' icon={AlertTriangle} value={23} color='#F59E0B' />
-					<StatCard name='Total Revenue' icon={DollarSign} value={"$543,210"} color='#EF4444' />
+					<StatCard name='Total Products' icon={Package} value={data.total_products} color='#6366F1' />
+					<StatCard name='Top Selling' icon={TrendingUp} value={data.top_selling_product} color='#10B981' />
+					<StatCard name='Low Stock' icon={AlertTriangle} value={data.low_stock_products} color='#F59E0B' />
+					<StatCard name='Total Revenue' icon={DollarSign} value={`${data.total_revenue} %`} color='#EF4444' />
 				</motion.div>
 
 				<ProductsTable />

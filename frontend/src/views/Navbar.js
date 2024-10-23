@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import '../styles/nav.css'
 import { jwtDecode } from 'jwt-decode'
 import AuthContext from '../context/AuthContext'
+import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
 
-function Navbar() {
+function MyNavbar() {
   const {user, logoutUser} = useContext(AuthContext)
   const token = localStorage.getItem("authTokens")
 
@@ -55,9 +56,37 @@ function Navbar() {
             </ul>
           </div>
         </div>
-      </nav>    
+      </nav>   
+
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top" collapseOnSelect>
+      <Container>
+        <Navbar.Brand href="/">MyApp</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link href="/services">Services</Nav.Link>
+            <NavDropdown title="More" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/blog">Blog</NavDropdown.Item>
+              <NavDropdown.Item href="/faq">FAQ</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/contact">Contact</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Nav>
+            <Nav.Link href="/login">
+              <Button variant="outline-light" className="me-2">Login</Button>
+            </Nav.Link>
+            <Nav.Link href="/signup">
+              <Button variant="light">Sign Up</Button>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar> 
       </div>
   )
 }
 
-export default Navbar
+export default MyNavbar
