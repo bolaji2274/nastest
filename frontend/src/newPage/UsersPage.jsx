@@ -10,10 +10,10 @@ import UserDemographicsChart from "../components/users/UserDemographicsChart";
 import Sidebar from "../components/common/Sidebar";
 
 const userStats = {
-	totalUsers: 152845,
-	newUsersToday: 243,
-	activeUsers: 98520,
-	churnRate: "2.4%",
+	totalUsers: 15,
+	newUsersToday: 5,
+	activeUsers: 4,
+	churnRate: "0.4%",
 };
 
 const UsersPage = () => {

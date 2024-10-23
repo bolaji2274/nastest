@@ -9,7 +9,7 @@ import UsersPage from "./UsersPage";
 import SalesPage from "./SalesPage";
 import OrdersPage from "./OrdersPage";
 import AnalyticsPage from "./AnalyticsPage";
-import SettingsPage from "./SettingsPage";
+// import SettingsPage from "./SettingsPage";
 
 const Dashboard = () => {
   return (
@@ -31,7 +31,7 @@ const Dashboard = () => {
 				<Route path='/sales' element={<SalesPage />} />
 				<Route path='/orders' element={<OrdersPage />} />
 				<Route path='/analytics' element={<AnalyticsPage />} />
-				<Route path='/settings' element={<SettingsPage />} />
+				{/* <Route path='/settings' element={<SettingsPage />} /> */}
 			</Routes>
 		</div>
     </div>

@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios'
 
 const ProductsPage = () => {
-	const [data, setData] = useState(null);
+	const [data, setData] = useState();
 
   	useEffect(() => {
     // Fetch data from the API
@@ -47,10 +47,10 @@ const ProductsPage = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 1 }}
 				>
-					<StatCard name='Total Products' icon={Package} value={data.total_products} color='#6366F1' />
-					<StatCard name='Top Selling' icon={TrendingUp} value={data.top_selling_product} color='#10B981' />
-					<StatCard name='Low Stock' icon={AlertTriangle} value={data.low_stock_products} color='#F59E0B' />
-					<StatCard name='Total Revenue' icon={DollarSign} value={`${data.total_revenue} %`} color='#EF4444' />
+					<StatCard name='Total Products' icon={Package} value='0' color='#6366F1' />
+					<StatCard name='Top Selling' icon={TrendingUp} value='0' color='#10B981' />
+					<StatCard name='Low Stock' icon={AlertTriangle} value='0' color='#F59E0B' />
+					<StatCard name='Total Revenue' icon={DollarSign} value='$ 0' color='#EF4444' />
 				</motion.div>
 
 				<ProductsTable />

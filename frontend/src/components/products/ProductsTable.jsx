@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import axios from 'axios'
 
 const PRODUCT_DATA = [
-	{ id: 1, name: "Wireless Earbuds", category: "Electronics", price: 59.99, stock: 143, sales: 1200 },
-	{ id: 2, name: "Leather Wallet", category: "Accessories", price: 39.99, stock: 89, sales: 800 },
-	{ id: 3, name: "Smart Watch", category: "Electronics", price: 199.99, stock: 56, sales: 650 },
-	{ id: 4, name: "Yoga Mat", category: "Fitness", price: 29.99, stock: 210, sales: 950 },
-	{ id: 5, name: "Coffee Maker", category: "Home", price: 79.99, stock: 78, sales: 720 },
+	{ id: 1, name: "Cat Fish", category: "Fish", price: 10000, stock: 24, sales: 0 },
+	{ id: 2, name: "Broiler", category: "Birds", price: 4500, stock: 89, sales: 0 },
+	{ id: 3, name: "Turkey", category: "Birds", price: 12000, stock: 56, sales: 0 },
+	{ id: 4, name: "Layer", category: "Birds", price: 5599, stock: 29, sales: 0 },
+	{ id: 5, name: "Fish", category: "Fish", price: 14500, stock: 23, sales: 0 },
 ];
 
 const ProductsTable = () => {
@@ -26,8 +26,8 @@ const ProductsTable = () => {
       });
   }, []);
 	const [searchTerm, setSearchTerm] = useState("");
-	// const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
-	const [filteredProducts, setFilteredProducts] = useState(data);
+	const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
+	// const [filteredProducts, setFilteredProducts] = useState(data);
 
 	const handleSearch = (e) => {
 		const term = e.target.value.toLowerCase();

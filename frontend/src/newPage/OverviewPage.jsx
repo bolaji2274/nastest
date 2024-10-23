@@ -12,10 +12,10 @@ import axios from 'axios'
 
 const OverviewPage = () => {
 	const [data, setData] = useState({
-    // total_sales: 0,
-    // new_users: 0,
-    // total_products: 0,
-    // conversion_rate: 0,
+    total_sales: 0,
+    new_users: 0,
+    total_products: 0,
+    conversion_rate: 0,
   });
   useEffect(() => {
     axios.get('http://localhost:8000/api/overview')
@@ -26,7 +26,7 @@ const OverviewPage = () => {
   }, []);
 	return (
 		<div className='flex-1 overflow-auto relative z-10'>
-			<Header title='Overview' />
+			<Header title='Nasfarm Dashboard' />
 
 			<main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
 				{/* STATS */}

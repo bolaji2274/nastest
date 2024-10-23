@@ -23,7 +23,7 @@ const Home = () => {
       {/* Hero Section */}
       {/* <Navbar/> */}
       <Header />
-      <Nav/>
+      {/* <Nav/> */}
       {/* <LazyLoadImage
       alt="Example"
         effect="blur"

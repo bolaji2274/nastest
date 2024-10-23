@@ -9,10 +9,10 @@ import DailySalesTrend from "../components/sales/DailySalesTrend";
 import Sidebar from "../components/common/Sidebar";
 
 const salesStats = {
-	totalRevenue: "$1,234,567",
-	averageOrderValue: "$78.90",
-	conversionRate: "3.45%",
-	salesGrowth: "12.3%",
+	totalRevenue: "$0",
+	averageOrderValue: "$0",
+	conversionRate: "0%",
+	salesGrowth: "0%",
 };
 
 const SalesPage = () => {
