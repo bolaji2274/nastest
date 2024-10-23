@@ -1,12 +1,14 @@
 from django.contrib import admin
 from api.models import User, Profile
-from .models import Livestock, Order, Notification, Profile
+from .models import Livestock, Order, Notification, Profile, Product
 
 # Register the Livestock model
 @admin.register(Livestock)
 class LivestockAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'available_quantity']
     search_fields = ['name', 'type']
+    
+
 
 # Register the Order model
 @admin.register(Order)
@@ -31,3 +33,4 @@ class ProfileAdmin(admin.ModelAdmin):
 
 # admin.site.register(User, UserAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Product)

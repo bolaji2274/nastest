@@ -14,6 +14,77 @@ from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 
 
+from rest_framework.views import APIView
+from django.db.models import Count, Sum
+from .models import Sale, Product, Profile, User
+from .serializer import ProductSerializer
+# Dashboard Start
+class OverviewDashboardView(APIView):
+   
+    def get(self, request):
+        # Total sales (sum of all sales)
+        total_sales = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
+
+        # New users (e.g., joined within a specific timeframe)
+        new_users = User.objects.filter(date_joined__gte='2024-01-01').count() or 0
+
+        # Total products
+        total_products = Product.objects.count() or 0
+
+        # Total orders (sales count)
+        total_orders = Sale.objects.count() or 0
+
+        # Conversion rate (orders divided by new users)
+        conversion_rate = ((total_orders / new_users) * 100 if new_users > 0 else 0) or 0
+        data = {
+            'total_sales': total_sales,
+            'new_users': new_users,
+            'total_products': total_products,
+            'conversion_rate': conversion_rate
+        }
+        # Return the response using serialized data
+        return Response(data)
+    
+class ProductDashboardView(APIView):
+    def get(self, request):
+        # Total products
+        total_products = Product.objects.count() or 0
+
+        # Top selling product (product with the highest sales)
+        top_selling_product = Product.objects.order_by('-sales').first()
+        top_selling_product = top_selling_product.sales if top_selling_product else 0
+        # Low stock products (let's define low stock as anything below 10 units)
+        low_stock_products = Product.objects.filter(stock__lt=10) or 0
+
+        # Total revenue from all products (sum of all sales total)
+        total_revenue = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
+
+        # Product list
+        product_list = Product.objects.all()
+
+        # Serialize data
+        top_selling_product_serialized = ProductSerializer(top_selling_product).data if top_selling_product else None
+        low_stock_products_serialized = ProductSerializer(low_stock_products, many=True).data
+        product_list_serialized = ProductSerializer(product_list, many=True).data
+        
+        
+        # Ensure any other null values in the serialized data are replaced with 0
+        if top_selling_product_serialized:
+            top_selling_product_serialized = {k: v if v is not None else 0 for k, v in top_selling_product_serialized.items()}
+
+        product_list_serialized = [
+            {k: v if v is not None else 0 for k, v in product.items()} for product in product_list_serialized
+        ]
+
+        # Return the response
+        return Response({
+            'total_products': total_products,
+            'top_selling_product': top_selling_product_serialized,
+            'low_stock_products': low_stock_products_serialized,
+            'total_revenue': total_revenue,
+            'product_list': product_list_serialized
+        })
+
 class SalesDataView(APIView):
     permission_classes = [IsAuthenticated]
 
