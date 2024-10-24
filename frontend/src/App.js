@@ -49,7 +49,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
 
             {/* new login  */}
-            <Route path='/log' element={<Login/>} />
+            {/* <Route path='/log' element={<Login/>} /> */}
             {/* <Route path='/reg' element={<Register/>} /> */}
 
             {/* new Route */}
