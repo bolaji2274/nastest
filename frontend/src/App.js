@@ -26,6 +26,9 @@ import OrdersPage from "./newPage/OrdersPage";
 import AnalyticsPage from "./newPage/AnalyticsPage";
 import SettingsPage from "./newPage/SettingsPage";
 
+
+import Login from './Auth/Login'
+import Register from "./Auth/Register";
 // import CustomerRegistration from "./pages/CustomerRegistration";
 
 const Home = React.lazy(() => import("./pages/Home"));
@@ -44,6 +47,10 @@ function App() {
             {/* <Route path='/about' element={<About/>}/> */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+
+            {/* new login  */}
+            <Route path='/log' element={<Login/>} />
+            {/* <Route path='/reg' element={<Register/>} /> */}
 
             {/* new Route */}
             {/* <Route path='/dashboard' element={<OverviewPage />} /> */}

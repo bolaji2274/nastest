@@ -3,6 +3,7 @@ import {useState, useContext} from 'react'
 import Header from './Header'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
+import Nav from '../pages/Nav.js'
 
 function RegisterPage() {
   
@@ -28,8 +29,8 @@ function RegisterPage() {
   }
   return (
     <div>
-      {/* <Navbar/> */}
-      <Header/>
+      <Nav/>
+      {/* <Header/> */}
 <section className="vh-70 bg-img" style={{ backgroundColor: "#9A616D" }}>
   <div className="container py-5 h-100">
     <div className="row d-flex justify-content-center align-items-center h-100">

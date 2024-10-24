@@ -1,6 +1,5 @@
 import React from "react";
-// import { LazyLoadImage } from 'react-lazy-load-image-component';
-// import 'react-lazy-load-image-component/src/effects/blur.css';
+
 import { Link } from "react-router-dom";
 import { Element } from "react-scroll";
 import { Container, Typography, Grid, Button, Box } from "@mui/material";
@@ -21,23 +20,20 @@ import ProductList from "./Product.js";
 const Home = () => {
   return (
     <>
-      {/* Hero Section */}
-      {/* <Navbar/> */}
-      <Header />
-      {/* <Nav/> */}
-      {/* <LazyLoadImage
-      alt="Example"
-        effect="blur"
-        /> */}
+      <Nav/>
+ 
 <Hero />
 
       {/* Introduction Section */}
       <Container maxWidth="lg" className="intro-section">
         <Element name="about">
-                  <ProductList/>
 
           <About />
-        </Element>{" "}
+        </Element>
+     <Element name="product">
+      <ProductList/>
+      </Element>   
+          {" "}
         <Typography variant="h4" gutterBottom className="text-center">
           About Us
         </Typography>

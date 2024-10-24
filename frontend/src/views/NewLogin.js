@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 // import Navbar from './Navbar'
-import Header from './Header'
+// import Header from './Header'
 import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 import '../styles/login.css'
 import chicken from '../assets/images/chicken-8.jpg'
 import bg_img from '../assets/images/turkey-3.jpg'
+import Nav from '../pages/Nav.js'
 function LoginPage() {
   const {loginUser, errors, clearErrors } = useContext(AuthContext)
   const handleSubmit = e => {
@@ -21,8 +22,8 @@ function LoginPage() {
   return (
     <div>
 <>
-{/* <Navbar/> */}
-<Header/>
+<Nav/>
+{/* <Header/> */}
   <section className="vh-70 bg-img">
     <div className="container py-5 h-100">
       <div className="row d-flex justify-content-center align-items-center h-100">
