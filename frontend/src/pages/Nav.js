@@ -62,7 +62,7 @@ const Navbar = () => {
             </li>
             <li>
               <Nav.Link as={ScrollLink} to="services" smooth={true} duration={200}>
-              Contact
+              Services
             </Nav.Link>
             </li>
             <li>
