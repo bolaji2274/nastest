@@ -83,6 +83,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['bio'] = user.profile.bio
         token['image'] = str(user.profile.image)
         token['verified'] = user.profile.verified
+        # token['is_admin'] = user.profile.is_staff
+        token['is_admin'] = user.is_admin
         
         return token
     def validate(self, attrs):

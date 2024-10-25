@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import AuthContext from '../context/AuthContext'
-import Nav from '../pages/Nav.js'
-import '../styles/register.css'
+import AuthContext from '../../context/AuthContext.js';
+import Nav from '../../pages/Nav.js';
+import '../../styles/register.css'
 
 function RegisterPage() {
   const [first_name, setFirstName] = useState("")
@@ -90,4 +90,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage
-

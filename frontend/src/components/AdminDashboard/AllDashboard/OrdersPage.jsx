@@ -1,12 +1,12 @@
 import { CheckCircle, Clock, DollarSign, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 
-import Sidebar from "../components/common/Sidebar";
-import Header from "../components/common/Header";
-import StatCard from "../components/common/StatCard";
-import DailyOrders from "../components/orders/DailyOrders";
-import OrderDistribution from "../components/orders/OrderDistribution";
-import OrdersTable from "../components/orders/OrdersTable";
+import Sidebar from "../common/Sidebar";
+import Header from "../common/Header";
+import StatCard from "../common/StatCard";
+import DailyOrders from "../orders/DailyOrders";
+import OrderDistribution from "../orders/OrderDistribution";
+import OrdersTable from "../orders/OrdersTable";
 
 const orderStats = {
 	totalOrders: "13",

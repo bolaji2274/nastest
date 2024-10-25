@@ -13,11 +13,22 @@ from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 
-
-from rest_framework.views import APIView
 from django.db.models import Count, Sum
 from .models import Sale, Product, Profile, User
 from .serializer import ProductSerializer
+
+from rest_framework.decorators import api_view
+from django.contrib.auth.decorators import login_required
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_user_role(request):
+    user = request.user
+    role = 'admin' if user.is_staff else 'customer'
+    data = {'role': role}
+    return Response(data)
+
+
 # Dashboard Start
 class OverviewDashboardView(APIView):
    

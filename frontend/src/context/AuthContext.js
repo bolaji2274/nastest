@@ -3,6 +3,8 @@ import { createContext, useState, useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+// import axios from 'axios'
+
 const swal = require('sweetalert2')
 
 const AuthContext = createContext()
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const loginUser = async (email, password) => {
         try {
-            const response = await fetch("https://52.158.47.98:8000/api/token/", {
+            const response = await fetch("http://localhost:8000/api/token/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,10 +42,18 @@ export const AuthProvider = ({ children }) => {
             const data = await response.json(); // Extract JSON data from response
             if (response.status === 200) {
                 setAuthTokens(data);
-                setUser(jwtDecode(data.access));
+                const decodeToken = jwtDecode(data.access)
+                setUser(decodeToken);
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 setErrors({});  // Clear previous errors
-                navigate("/dashboard");
+                // navigate("/dashboard");
+                if (decodeToken.is_admin) {
+                    navigate("/admin/dashboard"); // Redirect to admin dashboard if user is admin
+                } else {
+                    navigate("/customer/dashboard");
+                    console.log(decodeToken.is_admin) // Redirect to customer dashboard for regular users
+                }
+                
                 // navigate(from, { replace: true });  // Redirect to the protected page after login
             } else if (response.status === 400) {
                 // Handle form field errors for login (e.g. invalid credentials)
@@ -78,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     // Register function with detailed error handling
     const registerUser = async (first_name, last_name, farm_branch_name, email, phone_number, password, password2) => {
         try {
-            const response = await fetch("https://52.158.47.98:8000/api/register/", {
+            const response = await fetch("http://localhost:8000/api/register/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -182,111 +192,6 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
-
-
-
-// export const AuthProvider = ({ children }) => {
-//     const [authTokens, setAuthTokens] = useState(()=> {
-//         localStorage.getItem('authTokens')
-//             ? JSON.parse(localStorage.getItem('authTokens'))
-//             : null
-//     })
-
-//     const [user, setUser] = useState(() => {
-//         localStorage.getItem('authTokens')
-//             ? jwtDecode(localStorage.getItem('authTokens'))
-//             : null
-//     })
-
-
-
-//     const [loading, setLoading] = useState(true)
-
-//     const history = useNavigate()
-
-//     const loginUser = async (email, password) => {
-//         const response = await fetch("http://127.0.0.1:8000/api/token/", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type":"application/json"
-//             },
-//             body: JSON.stringify({
-//                 email, password
-//             })
-//         })
-
-//         const data = await response.json()
-//         document.write(data);
-//         console.log(data);
-
-//         if(response.status === 200){
-//             document.write("Login In");
-//             console.log("Login In");
-//             setAuthTokens(data)
-//             setUser(jwtDecode(data.access))
-//             localStorage.setItem("authTokens", JSON.stringify(data))
-//             history("/")
-//         } else {
-//             document.write(response.status);
-//             document.write("There was an issue")
-//             console.log(response.status);
-//             console.log("There was an issue");
-//             alert("something went wrong " + response.status)
-//         }
-//     }
-
-
-//     const registerUser = async (email, username, password, password2) => {
-//         const response = await fetch("http://localhost:8000/api/register/", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type":"application/json"
-//             },
-//             body: JSON.stringify({
-//                 email, username, password, password2
-//             })
-//         })
-//         if(response.status === 201){
-//             history("/login")
-//         } else {
-//             document.write(response.status);
-//             document.write("There was an issue")
-//             console.log(response.status);
-//             console.log("There was an issue");
-//             alert("something went wrong " + response.status)
-//         }
-//     }
-
-//     const logoutUser = () => {
-//         setAuthTokens(null)
-//         setUser(null)
-//         localStorage.removeItem("authTokens")
-//         history.push("/login")
-//     }
-
-//     const contextData = {
-//         user,
-//         setUser,
-//         authTokens,
-//         setAuthTokens,
-//         registerUser,
-//         loginUser,
-//         logoutUser
-//     }
-
-//     useEffect(() => {
-//         if (authTokens){
-//             setUser(jwtDecode(authTokens.access))
-//         }
-//         setLoading(false)
-//     }, [authTokens, loading])
-
-//     return (
-//         <AuthContext.Provider value={contextData}>
-//             {loading ? null : children}
-//         </AuthContext.Provider>
-//     )
-// }
 
 export default AuthContext
 

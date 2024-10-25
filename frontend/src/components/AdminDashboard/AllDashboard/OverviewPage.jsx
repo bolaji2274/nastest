@@ -1,11 +1,12 @@
 import { BarChart2, ShoppingBag, Users, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
-import Header from "../components/common/Header";
-import StatCard from "../components/common/StatCard";
-import SalesOverviewChart from "../components/overview/SalesOverviewChart";
-import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
-import SalesChannelChart from "../components/overview/SalesChannelChart";
+import Header from "../common/Header";
+import StatCard from "../common/StatCard";
+import SalesOverviewChart from "../overview/SalesOverviewChart";
+import CategoryDistributionChart from "../overview/CategoryDistributionChart";
+import SalesChannelChart from "../overview/SalesChannelChart";
+import Sidebar from "../common/Sidebar";
 import { useState, useEffect } from "react";
 import axios from 'axios'
 
@@ -25,9 +26,15 @@ const OverviewPage = () => {
       .catch((error) => console.error(error));
   }, []);
 	return (
+		  <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>
+			{/* BG */}
+			<div className='fixed inset-0 z-0'>
+				<div className='absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80' />
+				<div className='absolute inset-0 backdrop-blur-sm' />
+			</div>
+			<Sidebar/>
 		<div className='flex-1 overflow-auto relative z-10'>
 			<Header title='Nasfarm Dashboard' />
-
 			<main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
 				{/* STATS */}
 				<motion.div
@@ -56,6 +63,7 @@ const OverviewPage = () => {
 					<SalesChannelChart />
 				</div>
 			</main>
+		</div>
 		</div>
 	);
 };

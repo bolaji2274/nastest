@@ -6,28 +6,31 @@ import { AuthProvider } from "./context/AuthContext";
 
 // import HomePage from "./views/HomePage";
 // import Dashboard from "./views/Dashboard";
+    // Auth Routh 
 
-// import LoginPage from "./views/LoginPage";
-import LoginPage from "./views/NewLogin";
+import LoginPage from "./components/Auth.Route/LoginPage";
+import RegisterPage from "./components/Auth.Route/RegisterPage";
+
 import Contact from "./pages/Contact";
-import RegisterPage from "./views/RegisterPage";
 import NotFound from "./views/NotFound";
 import TestLogin from "./views/TestLogin";
 import Spinner from "./pages/Spinner";
 // import OverviewRoute from "./OverviewRoute";
 
 // new dashboard overview
-import Dashboard from "./newPage/Dashboard";
-import OverviewPage from "./newPage/OverviewPage";
-import ProductsPage from "./newPage/ProductsPage";
-import UsersPage from "./newPage/UsersPage";
-import SalesPage from "./newPage/SalesPage";
-import OrdersPage from "./newPage/OrdersPage";
-import AnalyticsPage from "./newPage/AnalyticsPage";
-import SettingsPage from "./newPage/SettingsPage";
+import Dashboard from "./components/AdminDashboard/AllDashboard/Dashboard";
+import OverviewPage from "./components/AdminDashboard/AllDashboard/OverviewPage";
+import ProductsPage from "./components/AdminDashboard/AllDashboard/ProductsPage";
+import UsersPage from "./components/AdminDashboard/AllDashboard/UsersPage";
+import SalesPage from "./components/AdminDashboard/AllDashboard/SalesPage";
+import OrdersPage from "./components/AdminDashboard/AllDashboard/OrdersPage";
+import AnalyticsPage from "./components/AdminDashboard/AllDashboard/AnalyticsPage";
+import SettingsPage from "./components/AdminDashboard/AllDashboard/SettingsPage";
 
 
-
+import CustomerDashboard from "./components/CustomerDashboard/customer/CustomerDashboard";
+import Application from "./components/CustomerDashboard/customer/Application";
+import Overview from "./components/CustomerDashboard/customer/Overview";
 // import CustomerRegistration from "./pages/CustomerRegistration";
 
 const Home = React.lazy(() => import("./pages/Home"));
@@ -51,7 +54,7 @@ function App() {
             
 
             {/* new Route */}
-            {/* <Route path='/dashboard' element={<OverviewPage />} /> */}
+            <Route path='/admin/dashboard' element={<OverviewPage />} />
 				<Route path='/products' element={<ProductsPage />} />
 				<Route path='/users' element={<UsersPage />} />
 				<Route path='/sales' element={<SalesPage />} />
@@ -59,14 +62,30 @@ function App() {
 				<Route path='/analytics' element={<AnalyticsPage />} />
 				<Route path='/settings' element={<SettingsPage />} />
 
+            {/* Customer Route  */}
+            <Route path="/application" element={<Application/> }/>
+
+
             <Route
-              path="/dashboard"
+              path="/admin/dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />
+                  
                 </PrivateRoute>
               }
             />
+        <Route
+              path="/customer/dashboard"
+              element={
+                <PrivateRoute>
+                  <CustomerDashboard />
+                  
+                </PrivateRoute>
+              }
+            />
+
+
             <Route path="*" element={<NotFound />} />
           </Routes>
           {/* <OverviewRoute /> */}

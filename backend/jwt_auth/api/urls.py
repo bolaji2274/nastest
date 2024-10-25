@@ -4,7 +4,7 @@ from api import views
 from .views import UserViewSet, LivestockViewSet, OrderViewSet, NotificationViewSet, ProfileViewSet, MetricsView
 from .views import TicketViewSet, FeedbackViewSet, FarmerCommitmentViewSet, ProfitSharingViewSet, ProfitDistributionViewSet
 from .views import SalesAnalysisView, CustomerAnalysisView, PerformanceMetricsView
-from .views import OverviewDashboardView, ProductDashboardView
+from .views import OverviewDashboardView, ProductDashboardView, get_user_role
 
 from rest_framework.routers import DefaultRouter
 
@@ -36,5 +36,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('route/', views.getRoutes),
     path('overview/', OverviewDashboardView.as_view(), name='overview'),
-    path('product-dashboard/', ProductDashboardView.as_view(), name='product')
+    path('product-dashboard/', ProductDashboardView.as_view(), name='product'),
+    path('get_user_role/', get_user_role, name='get-user-role'),
 ]

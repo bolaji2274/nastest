@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 
-import Header from "../components/common/Header";
-import StatCard from "../components/common/StatCard";
-import Sidebar from "../components/common/Sidebar";
+import Header from "../common/Header";
+import StatCard from "../common/StatCard";
+import Sidebar from "../common/Sidebar";
 import { AlertTriangle, DollarSign, Package, TrendingUp } from "lucide-react";
-import CategoryDistributionChart from "../components/overview/CategoryDistributionChart";
-import SalesTrendChart from "../components/products/SalesTrendChart";
-import ProductsTable from "../components/products/ProductsTable";
+import CategoryDistributionChart from "../overview/CategoryDistributionChart";
+import SalesTrendChart from "../products/SalesTrendChart";
+import ProductsTable from "../products/ProductsTable";
 import { useState, useEffect } from "react";
 import axios from 'axios'
 

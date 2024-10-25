@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
-import Sidebar from '../components/common/Sidebar';
+import Sidebar from '../common/Sidebar';
 
 
 import OverviewPage from "./OverviewPage";

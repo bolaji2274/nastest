@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
-import '../styles/login.css';
-import Nav from '../pages/Nav.js';
+import AuthContext from '../../context/AuthContext.js';
+import '../../styles/login.css';
+import Nav from '../../pages/Nav.js';
 
 function LoginPage() {
   const { loginUser, errors, clearErrors } = useContext(AuthContext);

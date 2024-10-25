@@ -1,10 +1,10 @@
-import Header from "../components/common/Header";
-import ConnectedAccounts from "../components/settings/ConnectedAccounts";
-import DangerZone from "../components/settings/DangerZone";
-import Notifications from "../components/settings/Notifications";
-import Profile from "../components/settings/Profile";
-import Security from "../components/settings/Security";
-import Sidebar from "../components/common/Sidebar";
+import Header from "../common/Header";
+import ConnectedAccounts from "../settings/ConnectedAccounts";
+import DangerZone from "../settings/DangerZone";
+import Notifications from "../settings/Notifications";
+import Profile from "../settings/Profile";
+import Security from "../settings/Security";
+import Sidebar from "../common/Sidebar";
 const SettingsPage = () => {
 	return (
 		 <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>

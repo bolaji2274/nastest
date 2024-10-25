@@ -3,6 +3,10 @@ from api.models import User, Profile
 from .models import Livestock, Order, Notification, Profile, Product
 
 # Register the Livestock model
+
+
+admin.site.site_header = 'Nasfarm Admin Dashboard'
+
 @admin.register(Livestock)
 class LivestockAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'available_quantity']
@@ -34,3 +38,4 @@ class ProfileAdmin(admin.ModelAdmin):
 # admin.site.register(User, UserAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Product)
+
