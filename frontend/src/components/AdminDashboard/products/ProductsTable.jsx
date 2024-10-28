@@ -1,43 +1,54 @@
 import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
-// import { useState } from "react";
 import { useState, useEffect } from "react";
-import axios from 'axios'
-
-const PRODUCT_DATA = [
-	{ id: 1, name: "Cat Fish", category: "Fish", price: 10000, stock: 24, sales: 0 },
-	{ id: 2, name: "Broiler", category: "Birds", price: 4500, stock: 89, sales: 0 },
-	{ id: 3, name: "Turkey", category: "Birds", price: 12000, stock: 56, sales: 0 },
-	{ id: 4, name: "Layer", category: "Birds", price: 5599, stock: 29, sales: 0 },
-	{ id: 5, name: "Fish", category: "Fish", price: 14500, stock: 23, sales: 0 },
-];
+import axios from 'axios';
 
 const ProductsTable = () => {
-	const [data, setData] = useState(null);
-
-  	useEffect(() => {
-    // Fetch data from the API
-    axios.get('http://127.0.0.1:8000/api/product-dashboard/')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the dashboard data!", error);
-      });
-  }, []);
+	const [data, setData] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [filteredProducts, setFilteredProducts] = useState(PRODUCT_DATA);
-	// const [filteredProducts, setFilteredProducts] = useState(data);
+	const [filteredProducts, setFilteredProducts] = useState([]);
+
+	useEffect(() => {
+		// Fetch data from the API
+		axios.get('http://127.0.0.1:8000/api/products/')
+			.then(response => {
+				setData(response.data);
+				setFilteredProducts(response.data); // Set filteredProducts when data is fetched
+				console.log(response.data);
+			})
+			.catch(error => {
+				console.error("There was an error fetching the dashboard data!", error);
+			});
+	}, []);
+
+	// Update filteredProducts whenever data or searchTerm changes
+	useEffect(() => {
+		const filtered = data.filter(
+			(product) => product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				product.category.toLowerCase().includes(searchTerm.toLowerCase())
+		);
+		setFilteredProducts(filtered);
+	}, [data, searchTerm]); // Dependencies: data and searchTerm
 
 	const handleSearch = (e) => {
-		const term = e.target.value.toLowerCase();
-		setSearchTerm(term);
-		const filtered = data.filter(
-			(product) => product.name.toLowerCase().includes(term) || product.category.toLowerCase().includes(term)
-		);
-
-		setFilteredProducts(filtered);
+		setSearchTerm(e.target.value); // Update searchTerm on input change
 	};
+	
+	const handleDelete = (id) => {
+        if (window.confirm("Are you sure you want to delete this product?")) {
+            axios.delete(`http://127.0.0.1:8000/api/products/${id}/`)
+                .then(response => {
+                    setData(data.filter(product => product.id !== id));
+                    alert("Product deleted successfully!");
+                })
+                .catch(error => {
+                    console.error("There was an error deleting the product!", error);
+                    alert("Error deleting the product. Please try again.");
+                });
+        }
+    };
+
+
 
 	return (
 		<motion.div
@@ -95,7 +106,7 @@ const ProductsTable = () => {
 							>
 								<td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100 flex gap-2 items-center'>
 									<img
-										src='https://images.unsplash.com/photo-1627989580309-bfaf3e58af6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww'
+										src={product.image} // Use the image URL from the product data
 										alt='Product img'
 										className='size-10 rounded-full'
 									/>
@@ -107,7 +118,8 @@ const ProductsTable = () => {
 								</td>
 
 								<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-300'>
-									${product.price.toFixed(2)}
+									{/* Assuming price is a string from the API, you can parse it to a float */}
+									# {parseFloat(product.price).toFixed(2)} {/* Format as needed */}
 								</td>
 								<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-300'>{product.stock}</td>
 								<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-300'>{product.sales}</td>
@@ -115,7 +127,7 @@ const ProductsTable = () => {
 									<button className='text-indigo-400 hover:text-indigo-300 mr-2'>
 										<Edit size={18} />
 									</button>
-									<button className='text-red-400 hover:text-red-300'>
+									<button onClick={() => handleDelete(product.id)} className='text-red-400 hover:text-red-300' >
 										<Trash2 size={18} />
 									</button>
 								</td>
@@ -127,4 +139,5 @@ const ProductsTable = () => {
 		</motion.div>
 	);
 };
+
 export default ProductsTable;

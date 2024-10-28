@@ -30,8 +30,15 @@ import SettingsPage from "./components/AdminDashboard/AllDashboard/SettingsPage"
 
 import CustomerDashboard from "./components/CustomerDashboard/customer/CustomerDashboard";
 import Application from "./components/CustomerDashboard/customer/Application";
+import ReviewOrders from "./components/CustomerDashboard/customer/Review";
 import Overview from "./components/CustomerDashboard/customer/Overview";
+import PendingOrders from "./components/CustomerDashboard/customer/PendingOrder";
+import OrderForm from "./components/CustomerDashboard/customer/OrderForm";
+import CustomerOrders from "./components/CustomerDashboard/customer/CustomerOrders";
+import AdminOrders from "./components/CustomerDashboard/customer/AdminOrders";
 // import CustomerRegistration from "./pages/CustomerRegistration";
+
+
 
 const Home = React.lazy(() => import("./pages/Home"));
 const About = React.lazy(() => import("./pages/About"));
@@ -43,6 +50,9 @@ function App() {
         <Suspense fallback={<Spinner />}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/myorder" element={<OrderForm />} />
+            <Route path="/customorder" element={<CustomerOrders />} />
+            <Route path="/adminorder" element={<AdminOrders />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/test" element={<TestLogin />} />
@@ -51,6 +61,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
 
             {/* new login  */}
+             {/* Test Route  */}
             
 
             {/* new Route */}
@@ -64,7 +75,8 @@ function App() {
 
             {/* Customer Route  */}
             <Route path="/application" element={<Application/> }/>
-
+            <Route path='/review' element={<ReviewOrders/>} />
+            <Route path='/applications/pending' element={<PendingOrders/>}/>
 
             <Route
               path="/admin/dashboard"

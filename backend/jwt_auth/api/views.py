@@ -5,20 +5,26 @@ from api.serializer import MyTokenObtainPairSerializer, UserSerializer, Register
 from rest_framework import viewsets, filters
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.db.models import Count, Sum
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
-
+from django.utils import timezone
+from datetime import timedelta
+from rest_framework import status
+from .permissions import IsProfileAdmin
+from django.shortcuts import get_object_or_404
 from django.db.models import Count, Sum
-from .models import Sale, Product, Profile, User
-from .serializer import ProductSerializer
+from .models import Sale, Product, Profile, User, Application
+from .serializer import ProductSerializer, ApplicationSerializer
+import logging
 
 from rest_framework.decorators import api_view
-from django.contrib.auth.decorators import login_required
+
+# from .products import products
+
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -29,57 +35,290 @@ def get_user_role(request):
     return Response(data)
 
 
-# Dashboard Start
-class OverviewDashboardView(APIView):
-   
-    def get(self, request):
-        # Total sales (sum of all sales)
-        total_sales = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
 
-        # New users (e.g., joined within a specific timeframe)
-        new_users = User.objects.filter(date_joined__gte='2024-01-01').count() or 0
 
-        # Total products
-        total_products = Product.objects.count() or 0
+#   product 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getProduct(request):
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
 
-        # Total orders (sales count)
-        total_orders = Sale.objects.count() or 0
+# class ApplicationCreateView(APIView):
+#     permission_classes = ([AllowAny])
 
-        # Conversion rate (orders divided by new users)
-        conversion_rate = ((total_orders / new_users) * 100 if new_users > 0 else 0) or 0
-        data = {
-            'total_sales': total_sales,
-            'new_users': new_users,
-            'total_products': total_products,
-            'conversion_rate': conversion_rate
-        }
-        # Return the response using serialized data
-        return Response(data)
+#     def post(self, request):
+#         serializer = ApplicationSerializer(data=request.data)
+#         if serializer.is_valid():
+#             # Attach the logged-in user as the customer
+#             serializer.save(customer=request.user)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+logger = logging.getLogger(__name__)
+
+# class ApplicationCreateView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def post(self, request):
+#         product_id = request.data.get('product')
+#         quantity = request.data.get('quantity')
+
+#         # Ensure product exists and check stock
+#         product = get_object_or_404(Product, id=product_id)
+#         if product.stock < int(quantity):
+#             return Response({"error": "Insufficient stock"}, status=status.HTTP_400_BAD_REQUEST)
+        
+#         # Create the application
+#         application = Application.objects.create(
+#             customer=request.user,
+#             product=product,
+#             quantity=quantity,
+#             status='Pending'
+#         )
+
+#         # Reduce stock of the product
+#         product.stock -= int(quantity)
+#         product.save()
+
+#         return Response(ApplicationSerializer(application).data, status=status.HTTP_201_CREATED)
     
+class ApplicationCreateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        logger.info("Received request to create application.")
+
+        product_id = request.data.get('product')
+        quantity = request.data.get('quantity')
+
+        logger.debug(f"Product ID: {product_id}, Quantity: {quantity}")
+
+        # Ensure product exists and check stock
+        product = get_object_or_404(Product, id=product_id)
+        
+        if product.stock < int(quantity):
+            logger.warning(f"Insufficient stock for Product ID: {product_id}. Requested: {quantity}, Available: {product.stock}")
+            return Response({"error": "Insufficient stock"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Create the application
+        application = Application.objects.create(
+            customer=request.user,
+            product=product,
+            quantity=quantity,
+            status='Pending'
+        )
+
+        # Automatically create an Order associated with this application
+        order = Order.objects.create(
+            application=application,
+            status='Pending'
+        )
+
+        logger.info(f"Application created: {application.id} with Order ID: {order.id} for Product ID: {product_id}, Quantity: {quantity}")
+
+        # Reduce stock of the product
+        product.stock -= int(quantity)
+        product.save()
+
+        return Response({
+            "application": ApplicationSerializer(application).data,
+            "order": OrderSerializer(order).data
+        }, status=status.HTTP_201_CREATED)
+
+
+class OrderListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # Fetch orders related to the customer
+        orders = Order.objects.filter(application__customer=request.user)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    def delete(self, request, pk=None):
+        try:
+            order = Order.objects.get(pk=pk, application__customer=request.user)
+            if order.status == 'Pending':
+                order.status = 'Cancelled'
+                order.save()
+                return Response({"detail": "Order cancelled"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"detail": "Only pending orders can be cancelled"}, status=status.HTTP_400_BAD_REQUEST)
+        except Order.DoesNotExist:
+            return Response({"detail": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+class CustomerOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        orders = Order.objects.filter(application__customer=request.user)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
+
+    def delete(self, request, pk=None):
+        try:
+            order = Order.objects.get(pk=pk, application__customer=request.user)
+            if order.status == 'Pending':
+                order.status = 'Cancelled'
+                order.save()
+                return Response({"detail": "Order cancelled"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"detail": "Only pending orders can be cancelled"}, status=status.HTTP_400_BAD_REQUEST)
+        except Order.DoesNotExist:
+            return Response({"detail": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class OrderManagementView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+
+    def get(self, request):
+        # Get all orders for admin management
+        orders = Order.objects.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        # Admin can update order status (e.g., Accept, Reject)
+        order_id = request.data.get("order_id")
+        status_choice = request.data.get("status")
+
+        order = get_object_or_404(Order, id=order_id)
+        if status_choice in dict(Order.STATUS_CHOICES):
+            order.status = status_choice
+            order.save()
+            return Response(OrderSerializer(order).data, status=status.HTTP_200_OK)
+        return Response({"error": "Invalid status choice"}, status=status.HTTP_400_BAD_REQUEST)
+
+# Dashboard Start
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_pending_applications(request):
+    user = request.user
+    pending_applications = Application.objects.filter(customer=user, status="Pending")
+    serializer = ApplicationSerializer(pending_applications, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class OverviewDashboardView(APIView):
+   
+#     def get(self, request):
+#         # Total sales (sum of all sales)
+#         total_sales = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
+
+#         # New users (e.g., joined within a specific timeframe)
+#         new_users = User.objects.filter(date_joined__gte='2024-01-01').count() or 0
+
+#         # Total products
+#         total_products = Product.objects.count() or 0
+
+#         # Total orders (sales count)
+#         total_orders = Sale.objects.count() or 0
+
+#         # Conversion rate (orders divided by new users)
+#         conversion_rate = ((total_orders / new_users) * 100 if new_users > 0 else 0) or 0
+#         data = {
+#             'total_sales': total_sales,
+#             'new_users': new_users,
+#             'total_products': total_products,
+#             'conversion_rate': conversion_rate
+#         }
+#         # Return the response using serialized data
+#         return Response(data)
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def overview_dashboard(request):
+    # Total sales (sum of all sales)
+    total_sales = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
+
+    # New users (e.g., joined within a specific timeframe)
+    new_users = User.objects.filter(date_joined__gte='2024-01-01').count() or 0
+
+    # Total products
+    total_products = Product.objects.count() or 0
+
+    # Total orders (sales count)
+    total_orders = Sale.objects.count() or 0
+
+    # Conversion rate (orders divided by new users)
+    conversion_rate = ((total_orders / new_users) * 100 if new_users > 0 else 0) or 0
+    
+    data = {
+        'total_sales': total_sales,
+        'new_users': new_users,
+        'total_products': total_products,
+        'conversion_rate': conversion_rate
+    }
+    
+    # Return the response using serialized data
+    return Response(data)
+# class ProductDashboardView(APIView):
+#     permission_classes = [AllowAny]
+#     def get(self, request):
+#         # Total products
+#         total_products = Product.objects.count() or 0
+
+#         # Top selling product (product with the highest sales)
+#         top_selling_product = Product.objects.order_by('-sales').first()
+#         # Check if a top selling product exists and serialize it
+#         top_selling_product_serialized = ProductSerializer(top_selling_product).data if top_selling_product else None
+        
+#         # Low stock products (let's define low stock as anything below 10 units)
+#         low_stock_products = Product.objects.filter(stock__lt=10)
+
+#         # Total revenue from all products (sum of all sales total)
+#         total_revenue = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
+
+#         # Product list
+#         product_list = Product.objects.all()
+
+#         # Serialize data
+#         low_stock_products_serialized = ProductSerializer(low_stock_products, many=True).data
+#         product_list_serialized = ProductSerializer(product_list, many=True).data
+        
+#         # Ensure any other null values in the serialized data are replaced with 0
+#         if top_selling_product_serialized:
+#             top_selling_product_serialized = {k: v if v is not None else 0 for k, v in top_selling_product_serialized.items()}
+
+#         product_list_serialized = [
+#             {k: v if v is not None else 0 for k, v in product.items()} for product in product_list_serialized
+#         ]
+        
+#         data = {
+#             'total_products': total_products,
+#             'top_selling_product': top_selling_product_serialized,
+#             'low_stock_products': low_stock_products_serialized,
+#             'total_revenue': total_revenue,
+#             'product_list': product_list_serialized
+#         }
+        
+#         # Return the response
+#         return Response(data)
 class ProductDashboardView(APIView):
+    permission_classes = ([AllowAny])
+
     def get(self, request):
         # Total products
         total_products = Product.objects.count() or 0
 
         # Top selling product (product with the highest sales)
         top_selling_product = Product.objects.order_by('-sales').first()
-        top_selling_product = top_selling_product.sales if top_selling_product else 0
-        # Low stock products (let's define low stock as anything below 10 units)
-        low_stock_products = Product.objects.filter(stock__lt=10) or 0
+        top_selling_product_serialized = ProductSerializer(top_selling_product).data if top_selling_product else None
 
-        # Total revenue from all products (sum of all sales total)
-        total_revenue = Sale.objects.aggregate(Sum('total_price'))['total_price__sum'] or 0
+        # Low stock products (defined as anything below 10 units)
+        low_stock_products = Product.objects.filter(stock__lt=10)
+        low_stock_products_serialized = ProductSerializer(low_stock_products, many=True).data
+
+        # Total revenue
+        total_revenue = sum(
+            [application.product.price * application.quantity for application in Application.objects.all()]
+        )
 
         # Product list
-        product_list = Product.objects.all()
-
-        # Serialize data
-        top_selling_product_serialized = ProductSerializer(top_selling_product).data if top_selling_product else None
-        low_stock_products_serialized = ProductSerializer(low_stock_products, many=True).data
+        product_list = Product.objects.filter(stock__gt=0)  # Only show products in stock
         product_list_serialized = ProductSerializer(product_list, many=True).data
         
-        
-        # Ensure any other null values in the serialized data are replaced with 0
+        # Replace null values
         if top_selling_product_serialized:
             top_selling_product_serialized = {k: v if v is not None else 0 for k, v in top_selling_product_serialized.items()}
 
@@ -87,14 +326,63 @@ class ProductDashboardView(APIView):
             {k: v if v is not None else 0 for k, v in product.items()} for product in product_list_serialized
         ]
 
-        # Return the response
-        return Response({
+        data = {
             'total_products': total_products,
             'top_selling_product': top_selling_product_serialized,
             'low_stock_products': low_stock_products_serialized,
             'total_revenue': total_revenue,
             'product_list': product_list_serialized
-        })
+        }
+        
+        return Response(data)
+class ProductDetailView(APIView):
+    def get(self, request, pk, format=None):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk, format=None):
+        try:
+            product = Product.objects.get(pk=pk)
+            product.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Product.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        # User Metrics Now
+@api_view(['GET'])
+@permission_classes([AllowAny])# Allow GET requests without authentication
+def user_metrics(request):
+    today = timezone.now().date()
+    one_week_ago = timezone.now() - timedelta(days=7)
+    one_month_ago = timezone.now() - timedelta(days=30)
+    
+    total_users = User.objects.count()
+    new_users_today = User.objects.filter(date_joined__date=today).count()
+    active_users = User.objects.filter(last_login__gte=one_week_ago).count()
+    
+    # Calculate Churn Rate as % of users who haven’t logged in for 30 days
+    inactive_users = User.objects.filter(last_login__lt=one_month_ago).count()
+    churn_rate = (inactive_users / total_users * 100) if total_users > 0 else 0
+
+    metrics = {
+        'total_users': total_users,
+        'new_users_today': new_users_today,
+        'active_users': active_users,
+        'churn_rate': churn_rate
+    }
+    
+    return Response(metrics, status=200)  # Return the metrics with a 200 OK status
+
+            # Get User List
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()  # Adjust queryset as needed
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+    
 
 class SalesDataView(APIView):
     permission_classes = [IsAuthenticated]

@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { TextField, Button, MenuItem, Typography, Grid } from '@mui/material';
-import Header from '..//common/Header';
-import Sidebar from '..//common/Sidebar';
-
-const livestockTypes = [
-  { value: 'broilers', label: 'Broilers' },
-  { value: 'layers', label: 'Layers' },
-  { value: 'fish', label: 'Fish' },
-];
+import Header from '../common/Header';
+import Sidebar from '../common/Sidebar';
 
 const Application = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +12,29 @@ const Application = () => {
     feedType: '',
     drugType: '',
   });
+
+  const [livestockTypes, setLivestockTypes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch available livestock types from the backend
+  useEffect(() => {
+    const fetchLivestockTypes = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/applications/create'); // Adjust the endpoint as needed
+        const availableTypes = response.data.map((product) => ({
+          value: product.name.toLowerCase(),
+          label: product.name,
+        }));
+        setLivestockTypes(availableTypes);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching livestock types:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchLivestockTypes();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -53,7 +70,7 @@ const Application = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
-     <Sidebar/>
+      <Sidebar />
 
       {/* Form Container */}
       <div className="flex-1 flex justify-center items-center relative z-10 p-6">
@@ -65,9 +82,9 @@ const Application = () => {
           transition={{ duration: 1 }}
         >
           <Typography variant="h5" className="text-center mb-6 text-gray-100">
-            <Header title='Apply For Livestock' />
+            <Header title="Apply For Livestock" />
           </Typography>
-          
+
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
@@ -78,6 +95,7 @@ const Application = () => {
                 onChange={handleChange}
                 fullWidth
                 className="bg-gray-700 text-gray-100 rounded-lg"
+                disabled={loading}
               >
                 {livestockTypes.map((option) => (
                   <MenuItem key={option.value} value={option.value} className="text-gray-100">
@@ -86,7 +104,7 @@ const Application = () => {
                 ))}
               </TextField>
             </Grid>
-            
+
             <Grid item xs={12}>
               <TextField
                 label="Quantity"
@@ -98,7 +116,7 @@ const Application = () => {
                 className="bg-gray-700 text-gray-100 rounded-lg"
               />
             </Grid>
-            
+
             <Grid item xs={12}>
               <TextField
                 label="Feed Type"
@@ -109,7 +127,7 @@ const Application = () => {
                 className="bg-gray-700 text-gray-100 rounded-lg"
               />
             </Grid>
-            
+
             <Grid item xs={12}>
               <TextField
                 label="Drug Type"
@@ -120,7 +138,7 @@ const Application = () => {
                 className="bg-gray-700 text-gray-100 rounded-lg"
               />
             </Grid>
-            
+
             <Grid item xs={12}>
               <motion.div
                 whileHover={{ scale: 1.05 }}

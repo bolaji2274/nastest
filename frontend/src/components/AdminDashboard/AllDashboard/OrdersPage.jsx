@@ -9,10 +9,10 @@ import OrderDistribution from "../orders/OrderDistribution";
 import OrdersTable from "../orders/OrdersTable";
 
 const orderStats = {
-	totalOrders: "13",
-	pendingOrders: "3",
-	completedOrders: "8",
-	totalRevenue: "$12530",
+	totalOrders: "0",
+	pendingOrders: "0",
+	completedOrders: "0",
+	totalRevenue: "$0",
 };
 
 const OrdersPage = () => {

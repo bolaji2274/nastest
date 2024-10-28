@@ -12,9 +12,11 @@ const SIDEBAR_ITEMS = [
 	},
 	{ name: "Applications", icon: AArrowUp, color: "#8B5CF6", href: "/application" },
 	{ name: "Notifications", icon: Bell, color: "#EC4899", href: "/notification" },
-	// { name: "Sales", icon: DollarSign, color: "#10B981", href: "/sales" },
 	{ name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/corder" },
+	{ name: "Pending Order", icon: UserCheck, color: "#3B82F6", href: "/applications/pending" },
+	{ name: "Review Order", icon: DollarSign, color: "#10B981", href: "/review" },
 	{ name: "Profile", icon: UserCheck, color: "#3B82F6", href: "/profile" },
+	
 	// { name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings" },
 ];
 

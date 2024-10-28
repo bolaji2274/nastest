@@ -5,25 +5,52 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from .models import Sale, Product
+from .models import Sale, Product, Application
 
 class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'farm_branch_name', 'email', 'phone_number']
+        fields = '__all__'
         
+        
+class UserMetricsSerializer(serializers.Serializer):
+    total_users = serializers.IntegerField()
+    new_users_today = serializers.IntegerField()
+    active_users = serializers.IntegerField()
+    churn_rate = serializers.FloatField()
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        # fields = ['id', 'name', 'category', 'price', 'stock', 'sales']
+        fields = '__all__'
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['actions'] = {
+            'edit': f'/api/products/{instance.id}/edit/',
+            'delete': f'/api/products/{instance.id}/delete/'
+        }
+        return representation
+
+       
+class ApplicationSerializer(serializers.ModelSerializer):
+    product_details = ProductSerializer(source='product', read_only=True)
+
+    class Meta:
+        model = Application
+        fields = '__all__'
+        read_only_fields = ['status', 'created_at']  # status and created_at are set automatically 
+class OrderSerializer(serializers.ModelSerializer):
+    application_details = ApplicationSerializer(source='application', read_only=True)
+    class Meta:
+        model = Order
+        fields = '__all__'
 
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
         fields = ['id', 'user', 'product', 'total_price', 'date']
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id', 'name', 'category', 'price', 'stock', 'sales']
-
-        
+ 
 class ProfitSharingSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProfitSharing
@@ -52,10 +79,6 @@ class LivestockSerializer(serializers.ModelSerializer):
         model = Livestock
         fields = '__all__'
 
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = '__all__'
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:

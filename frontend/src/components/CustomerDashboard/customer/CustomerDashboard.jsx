@@ -8,7 +8,8 @@ import Overview from './Overview.jsx'
 import Notification from './Notification.jsx'
 import Order from './Order.jsx'
 import Profile from './Profile.jsx'
-
+import ReviewOrders from './Review.jsx';
+import PendingOrders from './PendingOrder.jsx';
 
 const CustomerDashboard = () => {
   return (
@@ -29,6 +30,8 @@ const CustomerDashboard = () => {
 				<Route path='/notification' element={<Notification />} />
 				<Route path='/corder' element={<Order />} />
 				<Route path='/Profile' element={<Profile />} />
+				<Route path='/review' element={<ReviewOrders />} />
+				<Route path='/applications/pending/' element={<PendingOrders/>} />
 				{/* <Route path='/settings' element={<SettingsPage />} /> */}
 			</Routes>
 		</div>

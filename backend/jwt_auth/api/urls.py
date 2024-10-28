@@ -3,8 +3,9 @@ from django.urls import path, include
 from api import views 
 from .views import UserViewSet, LivestockViewSet, OrderViewSet, NotificationViewSet, ProfileViewSet, MetricsView
 from .views import TicketViewSet, FeedbackViewSet, FarmerCommitmentViewSet, ProfitSharingViewSet, ProfitDistributionViewSet
-from .views import SalesAnalysisView, CustomerAnalysisView, PerformanceMetricsView
-from .views import OverviewDashboardView, ProductDashboardView, get_user_role
+from .views import SalesAnalysisView, CustomerAnalysisView, PerformanceMetricsView, UserListView
+from .views import overview_dashboard, ProductDashboardView, get_user_role, ApplicationCreateView, ProductDetailView
+from .views import OrderListView, OrderManagementView
 
 from rest_framework.routers import DefaultRouter
 
@@ -35,7 +36,14 @@ urlpatterns = [
     path('operational-performance/', PerformanceMetricsView.as_view(), name='operational-performance'),
     path('', include(router.urls)),
     path('route/', views.getRoutes),
-    path('overview/', OverviewDashboardView.as_view(), name='overview'),
-    path('product-dashboard/', ProductDashboardView.as_view(), name='product'),
+    path('overview/', overview_dashboard, name='overview'),
+    path('product-dashboard/', ProductDashboardView.as_view(), name='product-dashboard'),
     path('get_user_role/', get_user_role, name='get-user-role'),
+    path('products/', views.getProduct, name='products'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'), # for deleting and editing 
+    path('applications/create/', ApplicationCreateView.as_view(), name='application-create'),
+    path('metrics/users/', views.user_metrics, name='user-metrics'),
+    path('users/', UserListView.as_view(), name='user-list'),
+    path('orders/', OrderListView.as_view(), name='order-list'),
+    path('admin/orders/', OrderManagementView.as_view(), name='order-management'),
 ]

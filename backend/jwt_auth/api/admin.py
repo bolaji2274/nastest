@@ -1,6 +1,6 @@
 from django.contrib import admin
 from api.models import User, Profile
-from .models import Livestock, Order, Notification, Profile, Product
+from .models import Livestock, Order, Notification, Profile, Product, Application
 
 # Register the Livestock model
 
@@ -12,14 +12,20 @@ class LivestockAdmin(admin.ModelAdmin):
     list_display = ['name', 'type', 'available_quantity']
     search_fields = ['name', 'type']
     
-
-
+# @admin.register(Application)
 # Register the Order model
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['livestock', 'quantity']
-    search_fields = ['customer__email', 'livestock__name']
+    list_display = ['get_product_name', 'get_quantity', 'status', 'created_at']
+    search_fields = ['application__product__name', 'status']
 
+    def get_product_name(self, obj):
+        return obj.application.product.name
+    get_product_name.short_description = 'Product Name'
+
+    def get_quantity(self, obj):
+        return obj.application.quantity
+    get_quantity.short_description = 'Quantity'
 # Register the Notification model
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):

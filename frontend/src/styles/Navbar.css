@@ -21,12 +21,15 @@
 }
 
 .nav-list {
+    width: 100%;
     list-style: none;
     display: flex;
     flex: 2;
     justify-content: center;
     margin: 0;
-    padding: 0;
+    padding: 10px 30px;
+    border-radius: 30px;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
 }
 
 .nav-list .nav-center {
@@ -35,6 +38,12 @@
 
 .nav-list .nav-center li {
     margin: 0 15px;
+    padding: 5px 10px;
+    color: #000;
+}
+
+a.active{
+    color: red;
 }
 
 .nav-list .nav-center a {
