@@ -9,6 +9,7 @@ import SalesTrendChart from "../products/SalesTrendChart";
 import ProductsTable from "../products/ProductsTable";
 import { useState, useEffect } from "react";
 import axios from 'axios'
+import Spinner from '../../../pages/Spinner.js'
 
 const ProductsPage = () => {
 	const [data, setData] = useState();
@@ -25,7 +26,10 @@ const ProductsPage = () => {
   }, []);
 
 	if (!data) {
-    return <div>Loading...</div>;
+    return <div>
+			{/* Loading... */}
+			<Spinner/>
+	</div>;
   }
 	return (
 		  <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>

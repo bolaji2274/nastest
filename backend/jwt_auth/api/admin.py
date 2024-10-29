@@ -14,6 +14,7 @@ class LivestockAdmin(admin.ModelAdmin):
     
 # @admin.register(Application)
 # Register the Order model
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['get_product_name', 'get_quantity', 'status', 'created_at']

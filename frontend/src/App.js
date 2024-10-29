@@ -38,6 +38,7 @@ import CustomerOrders from "./components/CustomerDashboard/customer/CustomerOrde
 import AdminOrders from "./components/CustomerDashboard/customer/AdminOrders";
 // import CustomerRegistration from "./pages/CustomerRegistration";
 
+import Order from './components/CustomerDashboard/customer/OrderPage'
 
 
 const Home = React.lazy(() => import("./pages/Home"));
@@ -75,6 +76,7 @@ function App() {
 
             {/* Customer Route  */}
             <Route path="/application" element={<Application/> }/>
+            <Route path='/customer/order' element={<Order/>} />
             <Route path='/review' element={<ReviewOrders/>} />
             <Route path='/applications/pending' element={<PendingOrders/>}/>
 

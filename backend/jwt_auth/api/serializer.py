@@ -42,9 +42,12 @@ class ApplicationSerializer(serializers.ModelSerializer):
         read_only_fields = ['status', 'created_at']  # status and created_at are set automatically 
 class OrderSerializer(serializers.ModelSerializer):
     application_details = ApplicationSerializer(source='application', read_only=True)
+    total_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)  # Include total price
+    customer_name = serializers.CharField(source='application.customer.username', read_only=True)  # Include customer's name
     class Meta:
         model = Order
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ['id', 'application_details', 'total_price', 'status', 'created_at', 'updated_at', 'customer_name']
 
 class SaleSerializer(serializers.ModelSerializer):
     class Meta:

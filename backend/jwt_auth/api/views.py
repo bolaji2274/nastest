@@ -129,16 +129,33 @@ class ApplicationCreateView(APIView):
         }, status=status.HTTP_201_CREATED)
 
 
-class OrderListView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    
+class CustomerOrderView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Fetch orders related to the customer
+        # Fetch orders related only to the authenticated customer
         orders = Order.objects.filter(application__customer=request.user)
+        total_orders = orders.count()
+        pending_orders = orders.filter(status="Pending").count()
+        completed_orders = orders.filter(status="Completed").count()
+
+        # Summary for this customer's orders
+        summary = {
+            "total_orders": total_orders,
+            "pending_orders": pending_orders,
+            "completed_orders": completed_orders,
+        }
+        
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+            "orders": serializer.data,
+            "summary": summary
+        }, status=status.HTTP_200_OK)
+
     def delete(self, request, pk=None):
         try:
+            # Ensure only pending orders of the specific customer can be cancelled
             order = Order.objects.get(pk=pk, application__customer=request.user)
             if order.status == 'Pending':
                 order.status = 'Cancelled'
@@ -148,14 +165,25 @@ class OrderListView(APIView):
                 return Response({"detail": "Only pending orders can be cancelled"}, status=status.HTTP_400_BAD_REQUEST)
         except Order.DoesNotExist:
             return Response({"detail": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
-    
-class CustomerOrderView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         orders = Order.objects.filter(application__customer=request.user)
+        total_orders = orders.count()
+        pending_orders = orders.filter(status="Pending").count()
+        completed_orders = orders.filter(status="Completed").count()
+
+        summary = {
+            "total_orders": total_orders,
+            "pending_orders": pending_orders,
+            "completed_orders": completed_orders,
+        }
+        
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data)
+        return Response({
+            "orders": serializer.data,
+            "summary": summary
+        }, status=status.HTTP_200_OK)
 
     def delete(self, request, pk=None):
         try:
@@ -175,8 +203,24 @@ class OrderManagementView(APIView):
     def get(self, request):
         # Get all orders for admin management
         orders = Order.objects.all()
+        
+        total_orders = orders.count()
+        pending_orders = orders.filter(status="Pending").count()
+        completed_orders = orders.filter(status="Completed").count()
+        total_revenue = orders.aggregate(total=Sum('total_price'))['total'] or 0.00
+
+        summary = {
+            "total_orders": total_orders,
+            "pending_orders": pending_orders,
+            "completed_orders": completed_orders,
+            "total_revenue": total_revenue,
+        }
+        
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({
+            "orders": serializer.data,
+            "summary": summary
+        }, status=status.HTTP_200_OK)
 
     def post(self, request):
         # Admin can update order status (e.g., Accept, Reject)

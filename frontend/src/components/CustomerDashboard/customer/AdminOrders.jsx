@@ -32,7 +32,7 @@ function AdminOrders() {
       <ul>
         {orders.map((order) => (
           <li key={order.id}>
-            Product: {order.product.name} | Quantity: {order.quantity} | Status: {order.status}
+            Product: {order.application_details.product_details.name} | Quantity: {order.application_details.quantity} | Total Price: ${order.total_price}| Status: {order.status} | Created At: {new Date(order.created_at).toLocaleDateString()} 
             <button onClick={() => handleStatusUpdate(order.id, 'Accepted')}>Accept</button>
             <button onClick={() => handleStatusUpdate(order.id, 'Rejected')}>Reject</button>
             <button onClick={() => handleStatusUpdate(order.id, 'Completed')}>Complete</button>

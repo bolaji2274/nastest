@@ -5,7 +5,7 @@ from .views import UserViewSet, LivestockViewSet, OrderViewSet, NotificationView
 from .views import TicketViewSet, FeedbackViewSet, FarmerCommitmentViewSet, ProfitSharingViewSet, ProfitDistributionViewSet
 from .views import SalesAnalysisView, CustomerAnalysisView, PerformanceMetricsView, UserListView
 from .views import overview_dashboard, ProductDashboardView, get_user_role, ApplicationCreateView, ProductDetailView
-from .views import OrderListView, OrderManagementView
+from .views import OrderManagementView, CustomerOrderView
 
 from rest_framework.routers import DefaultRouter
 
@@ -44,6 +44,6 @@ urlpatterns = [
     path('applications/create/', ApplicationCreateView.as_view(), name='application-create'),
     path('metrics/users/', views.user_metrics, name='user-metrics'),
     path('users/', UserListView.as_view(), name='user-list'),
-    path('orders/', OrderListView.as_view(), name='order-list'),
+    path('orders/', CustomerOrderView.as_view(), name='order-list'),
     path('admin/orders/', OrderManagementView.as_view(), name='order-management'),
 ]

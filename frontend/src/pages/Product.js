@@ -27,35 +27,35 @@ const ProductList = () => {
       category: "Poultry",
       price: 20.0,
       stock: 50,
-      img: hen,
+      image: hen,
     //   img: "https://via.placeholder.com/150/FF6347/FFFFFF?text=Chicken",
   
     },
     {
       id: 2,
-      name: "Fresh Tilapia",
+      name: "Cat Fish",
       category: "Fish",
       price: 15.0,
       stock: 100,
-      img: catFishs,
+      image: catFishs,
     //   img: "https://via.placeholder.com/150/4682B4/FFFFFF?text=Tilapia",
     },
     {
       id: 3,
-      name: "Broiler Feed",
+      name: "Fresh Tilapia",
       category: "Feed",
       price: 25.0,
       stock: 200,
-      img: catFish,
+      image: catFish,
     //   img: "https://via.placeholder.com/150/32CD32/FFFFFF?text=Feed",
     },
     {
       id: 4,
-      name: "Vitamin Supplements",
-      category: "Medicine",
+      name: "Turkey",
+      category: "Turkey",
       price: 30.0,
       stock: 30,
-      img: turkey,
+      image: turkey,
     //   img: "https://via.placeholder.com/150/FF4500/FFFFFF?text=Supplements",
     },
   ];
@@ -67,7 +67,7 @@ const ProductList = () => {
          Products
         </Typography>
       <div className="product-grid">
-        {products.map((product) => (
+        {myProduct.map((product) => (
           <div key={product.id} className="product-card">
             <img src={product.image} alt={product.name} className="product-image" />
             <div className="product-details">

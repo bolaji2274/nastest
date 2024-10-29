@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Sidebar from "../common/Sidebar";
 import Header from "../common/Header";
 import StatCard from "../common/StatCard";
-import DailyOrders from "../orders/DailyOrders";
-import OrderDistribution from "../orders/OrderDistribution";
-import OrdersTable from "../orders/OrdersTable";
-import { getAllOrders } from '../../../context/allApi'
+// import DailyOrders from "../orders/DailyOrders";
+// import OrderDistribution from "../orders/OrderDistribution";
+import OrdersTable from "../Order/OrderTable";
+import { getCustomerOrders } from '../../../context/allApi'
 import { useEffect, useState } from "react";
 
 
@@ -21,10 +21,10 @@ const orderStats = {
 const OrdersPage = () => {
 	const [orders, setOrders] = useState([]);
 	  useEffect(() => {
-		getAllOrders()
+		getCustomerOrders()
 		.then((response) => {
-			console.log(response.data.summary);
-			setOrders(response.data.summary);
+			console.log(response.data);
+			setOrders(response.data);
 		})
 		.catch((error) => console.error(error));
   }, []);
@@ -47,20 +47,20 @@ const OrdersPage = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 1 }}
 				>
-					<StatCard name='Total Orders' icon={ShoppingBag} value={orders.total_orders} color='#6366F1' />
-					<StatCard name='Pending Orders' icon={Clock} value={orders.pending_orders} color='#F59E0B' />
+					<StatCard name='My Total Orders' icon={ShoppingBag} value={orders.total_orders} color='#6366F1' />
+					<StatCard name='My Pending Orders' icon={Clock} value={orders.pending_orders} color='#F59E0B' />
 					<StatCard
 						name='Completed Orders'
 						icon={CheckCircle}
 						value={orders.completed_orders}
 						color='#10B981'
 					/>
-					<StatCard name='Total Revenue' icon={DollarSign} value={orders.total_revenue} color='#EF4444' />
+					{/* <StatCard name='Total Revenue' icon={DollarSign} value={orders.total_revenue} color='#EF4444' /> */}
 				</motion.div>
 					<OrdersTable />
 				<div className='grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 mt-3'>
-					<DailyOrders />
-					<OrderDistribution />
+					{/* <DailyOrders /> */}
+					{/* <OrderDistribution /> */}
 				</div>
 
 				

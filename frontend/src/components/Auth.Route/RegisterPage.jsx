@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../../context/AuthContext.js';
 import Nav from '../../pages/Nav.js';
 import '../../styles/register.css'
+import Loading from '../../context/Loading.jsx';
 
 function RegisterPage() {
   const [first_name, setFirstName] = useState("")
@@ -12,10 +13,12 @@ function RegisterPage() {
   const [phone_number, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
+  const [loading, setLoading] = useState(false);
 
   const { registerUser, errors, clearErrors } = useContext(AuthContext)
 
   const handleSubmit = async e => {
+    setLoading(true)
     e.preventDefault()
     clearErrors();  // Clear errors before attempting a new registration
     registerUser(first_name, last_name, farm_branch_name, email, phone_number, password, password2)
@@ -49,7 +52,7 @@ function RegisterPage() {
                       {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
                     </div>
                     <div className="form-outline mb-4">
-                      <input type="text" className="form-control form-control-lg" placeholder="Farm Branch" onChange={e => setFarmBranchName(e.target.value)} />
+                      <input type="text" className="form-control form-control-lg" placeholder="Address" onChange={e => setFarmBranchName(e.target.value)} />
                       {errors.farm_branch_name && <p style={{ color: 'red' }}>{errors.farm_branch_name}</p>}
                     </div>
                     <div className="form-outline mb-4">
@@ -64,6 +67,7 @@ function RegisterPage() {
                       <input type="password" className="form-control form-control-lg" placeholder="Confirm Password" onChange={e => setPassword2(e.target.value)} />
                       {errors.password2 && <p style={{ color: 'red' }}>{errors.password2}</p>}
                     </div>
+                     {loading && <Loading/>}
                     <div className="pt-1 mb-4">
                       <button className="btn btn-dark btn-lg btn-block" type="submit">Register</button>
                     </div>

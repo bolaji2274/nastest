@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { deleteProduct } from "../../../context/allApi";
 
 const ProductsTable = () => {
 	const [data, setData] = useState([]);
@@ -36,7 +37,7 @@ const ProductsTable = () => {
 	
 	const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            axios.delete(`http://127.0.0.1:8000/api/products/${id}/`)
+            deleteProduct()
                 .then(response => {
                     setData(data.filter(product => product.id !== id));
                     alert("Product deleted successfully!");

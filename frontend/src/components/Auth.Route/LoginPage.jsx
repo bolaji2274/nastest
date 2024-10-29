@@ -1,14 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext.js';
 import '../../styles/login.css';
 import Nav from '../../pages/Nav.js';
+import Loading from '../../context/Loading.jsx';
 
 function LoginPage() {
   const { loginUser, errors, clearErrors } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     clearErrors();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -62,6 +65,7 @@ function LoginPage() {
                           />
                           {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>} {/* Show password error */}
                         </div>
+                          {loading && <Loading/>}
                         <div className="pt-1 mb-4">
                           <button
                             className="btn btn-dark btn-lg btn-block submit-button submit-btn"

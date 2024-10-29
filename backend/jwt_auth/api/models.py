@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db.models.signals import post_save
+from decimal import Decimal
 # Create your models here.
 
 class User(AbstractUser):
@@ -42,7 +43,7 @@ class Profile(models.Model):
     is_superuser = models.BooleanField(default=False)
     
     def __str__(self):
-        return self.username
+        return self.first_name
     
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -123,10 +124,21 @@ class Order(models.Model):
         ('Cancelled', 'Cancelled'),
     ]
     
+    
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     status = models.CharField(choices=STATUS_CHOICES, default='Pending', max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        # Calculate total price based on application product price and quantity
+        # Convert quantity to an integer and ensure price is Decimal
+        quantity = int(self.application.quantity) if isinstance(self.application.quantity, str) else self.application.quantity
+        price = Decimal(self.application.product.price) if not isinstance(self.application.product.price, Decimal) else self.application.product.price
+
+        self.total_price = price * quantity
+        super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"Order {self.id} - {self.status}"
@@ -180,8 +192,6 @@ class Livestock(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-
-
 class Notification(models.Model):
     TYPES = [
         ('order', 'Order'),
