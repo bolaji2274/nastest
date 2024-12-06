@@ -4,9 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 
-// import HomePage from "./views/HomePage";
-// import Dashboard from "./views/Dashboard";
-    // Auth Routh 
 
 import LoginPage from "./components/Auth.Route/LoginPage";
 import RegisterPage from "./components/Auth.Route/RegisterPage";
