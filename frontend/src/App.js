@@ -12,9 +12,8 @@ import Contact from "./pages/Contact";
 import NotFound from "./views/NotFound";
 import TestLogin from "./views/TestLogin";
 import Spinner from "./pages/Spinner";
-// import OverviewRoute from "./OverviewRoute";
 
-// new dashboard overview
+
 import Dashboard from "./components/AdminDashboard/AllDashboard/Dashboard";
 import OverviewPage from "./components/AdminDashboard/AllDashboard/OverviewPage";
 import ProductsPage from "./components/AdminDashboard/AllDashboard/ProductsPage";
